@@ -1,7 +1,7 @@
 package org.jeecg.modules.waybillInfo.entity;
 
 import java.io.Serializable;
-import java.util.Date;
+
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -16,7 +16,7 @@ import io.swagger.annotations.ApiModelProperty;
 /**
  * @Description: 运单信息表
  * @Author: jeecg-boot
- * @Date:   2021-01-27
+ * @Date:   2021-02-18
  * @Version: V1.0
  */
 @ApiModel(value="waybill_info对象", description="运单信息表")

@@ -10,13 +10,6 @@ import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.jeecg.modules.waybillInfo.entity.WaybillConsignor;
-import org.jeecg.modules.waybillInfo.entity.WaybillInfo;
-import org.jeecg.modules.waybillInfo.entity.WaybillNoticeHistory;
-import org.jeecg.modules.waybillInfo.service.IWaybillConsigneeService;
-import org.jeecg.modules.waybillInfo.service.IWaybillNoticeHistoryService;
-import org.jeecg.modules.waybillInfo.service.IWaybillNoticeService;
-import org.jeecg.modules.waybillInfo.vo.WaybillInfoPage;
 import org.jeecgframework.poi.excel.ExcelImportUtil;
 import org.jeecgframework.poi.excel.def.NormalExcelConstants;
 import org.jeecgframework.poi.excel.entity.ExportParams;
@@ -27,10 +20,17 @@ import org.apache.shiro.SecurityUtils;
 import org.jeecg.common.api.vo.Result;
 import org.jeecg.common.system.query.QueryGenerator;
 import org.jeecg.common.util.oConvertUtils;
+import org.jeecg.modules.waybillInfo.entity.WaybillConsignor;
 import org.jeecg.modules.waybillInfo.entity.WaybillConsignee;
 import org.jeecg.modules.waybillInfo.entity.WaybillNotice;
+import org.jeecg.modules.waybillInfo.entity.WaybillNoticeHistory;
+import org.jeecg.modules.waybillInfo.entity.WaybillInfo;
+import org.jeecg.modules.waybillInfo.vo.WaybillInfoPage;
 import org.jeecg.modules.waybillInfo.service.IWaybillInfoService;
 import org.jeecg.modules.waybillInfo.service.IWaybillConsignorService;
+import org.jeecg.modules.waybillInfo.service.IWaybillConsigneeService;
+import org.jeecg.modules.waybillInfo.service.IWaybillNoticeService;
+import org.jeecg.modules.waybillInfo.service.IWaybillNoticeHistoryService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -48,7 +48,7 @@ import org.jeecg.common.aspect.annotation.AutoLog;
  /**
  * @Description: 运单信息表
  * @Author: jeecg-boot
- * @Date:   2021-01-27
+ * @Date:   2021-02-18
  * @Version: V1.0
  */
 @Api(tags="运单信息表")
@@ -80,9 +80,9 @@ public class WaybillInfoController {
 	@ApiOperation(value="运单信息表-分页列表查询", notes="运单信息表-分页列表查询")
 	@GetMapping(value = "/list")
 	public Result<?> queryPageList(WaybillInfo waybillInfo,
-                                   @RequestParam(name="pageNo", defaultValue="1") Integer pageNo,
-                                   @RequestParam(name="pageSize", defaultValue="10") Integer pageSize,
-                                   HttpServletRequest req) {
+								   @RequestParam(name="pageNo", defaultValue="1") Integer pageNo,
+								   @RequestParam(name="pageSize", defaultValue="10") Integer pageSize,
+								   HttpServletRequest req) {
 		QueryWrapper<WaybillInfo> queryWrapper = QueryGenerator.initQueryWrapper(waybillInfo, req.getParameterMap());
 		Page<WaybillInfo> page = new Page<WaybillInfo>(pageNo, pageSize);
 		IPage<WaybillInfo> pageList = waybillInfoService.page(page, queryWrapper);

@@ -8,14 +8,13 @@ import lombok.Data;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.jeecgframework.poi.excel.annotation.Excel;
-import java.util.Date;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 /**
  * @Description: 运单收货人
  * @Author: jeecg-boot
- * @Date:   2021-01-27
+ * @Date:   2021-02-18
  * @Version: V1.0
  */
 @ApiModel(value="waybill_info对象", description="运单信息表")
@@ -48,7 +47,7 @@ public class WaybillConsignee implements Serializable {
 	@ApiModelProperty(value = "所属部门")
 	private java.lang.String sysOrgCode;
 	/**收货人*/
-	@Excel(name = "收货人", width = 15, dictTable = "sys_depart", dicText = "depart_name", dicCode = "id")
+	@Excel(name = "收货人", width = 15, dictTable = "customer_info", dicText = "company_name", dicCode = "id")
 	@ApiModelProperty(value = "收货人")
 	private java.lang.String consigneeId;
 	/**运单号*/

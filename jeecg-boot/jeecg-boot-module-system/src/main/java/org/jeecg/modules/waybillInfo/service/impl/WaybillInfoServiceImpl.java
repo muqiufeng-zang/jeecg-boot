@@ -22,7 +22,7 @@ import java.util.Collection;
 /**
  * @Description: 运单信息表
  * @Author: jeecg-boot
- * @Date:   2021-01-27
+ * @Date:   2021-02-18
  * @Version: V1.0
  */
 @Service
@@ -41,7 +41,7 @@ public class WaybillInfoServiceImpl extends ServiceImpl<WaybillInfoMapper, Waybi
 	
 	@Override
 	@Transactional
-	public void saveMain(WaybillInfo waybillInfo, List<WaybillConsignor> waybillConsignorList, List<WaybillConsignee> waybillConsigneeList, List<WaybillNotice> waybillNoticeList, List<WaybillNoticeHistory> waybillNoticeHistoryList) {
+	public void saveMain(WaybillInfo waybillInfo, List<WaybillConsignor> waybillConsignorList,List<WaybillConsignee> waybillConsigneeList,List<WaybillNotice> waybillNoticeList,List<WaybillNoticeHistory> waybillNoticeHistoryList) {
 		waybillInfoMapper.insert(waybillInfo);
 		if(waybillConsignorList!=null && waybillConsignorList.size()>0) {
 			for(WaybillConsignor entity:waybillConsignorList) {

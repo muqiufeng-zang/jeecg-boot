@@ -8,7 +8,7 @@ import org.apache.ibatis.annotations.Param;
 /**
  * @Description: 运单发货人
  * @Author: jeecg-boot
- * @Date:   2021-01-27
+ * @Date:   2021-02-18
  * @Version: V1.0
  */
 public interface WaybillConsignorMapper extends BaseMapper<WaybillConsignor> {

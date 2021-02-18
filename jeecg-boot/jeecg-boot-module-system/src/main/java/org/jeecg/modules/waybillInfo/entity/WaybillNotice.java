@@ -8,14 +8,13 @@ import lombok.Data;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.jeecgframework.poi.excel.annotation.Excel;
-import java.util.Date;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 /**
  * @Description: 运单状态通知人
  * @Author: jeecg-boot
- * @Date:   2021-01-27
+ * @Date:   2021-02-18
  * @Version: V1.0
  */
 @ApiModel(value="waybill_info对象", description="运单信息表")
@@ -51,7 +50,7 @@ public class WaybillNotice implements Serializable {
 	@ApiModelProperty(value = "运单号")
 	private java.lang.String waybillNo;
 	/**接受通知人*/
-	@Excel(name = "接受通知人", width = 15, dictTable = "sys_user", dicText = "realname", dicCode = "id")
+	@Excel(name = "接受通知人", width = 15, dictTable = "customer_contacts", dicText = "name", dicCode = "id")
 	@ApiModelProperty(value = "接受通知人")
 	private java.lang.String userId;
 	/**通知类型*/
