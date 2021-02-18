@@ -72,7 +72,7 @@
     </a-col>
     <a-col :md="12" :sm="24">
       <a-tabs defaultActiveKey="1">
-        <a-tab-pane tab="基本信息" key="1" >
+        <a-tab-pane tab="基本信息" v-has="'departInfo'" key="1" >
           <a-card :bordered="false" v-if="selectedKeys.length>0">
             <a-form :form="form">
               <a-form-item
@@ -155,7 +155,7 @@
             </a-empty>
           </a-card>
         </a-tab-pane>
-        <a-tab-pane tab="部门权限" key="2" forceRender>
+        <a-tab-pane tab="部门权限" v-has="'departAuth'" key="2" forceRender>
           <depart-auth-modal ref="departAuth"/>
         </a-tab-pane>
       </a-tabs>

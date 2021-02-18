@@ -27,8 +27,8 @@
     <!-- 操作按钮区域 -->
     <div class="table-operator" :md="24" :sm="24" style="margin-top: -15px">
       <!--<a-button @click="handleEdit" type="primary" icon="edit" style="margin-top: 16px">用户编辑</a-button>-->
-      <a-button @click="handleAddUserDepart" type="primary" icon="plus">添加已有用户</a-button>
-      <a-button @click="handleAdd" type="primary" icon="plus" style="margin-top: 16px">新建用户</a-button>
+      <a-button @click="handleAddUserDepart" type="primary" icon="plus" v-has="'addExistUser'">添加已有用户</a-button>
+      <a-button @click="handleAdd" type="primary" icon="plus" style="margin-top: 16px" v-has="'addUser'">新建用户</a-button>
 
       <a-dropdown v-if="selectedRowKeys.length > 0">
         <a-menu slot="overlay">
