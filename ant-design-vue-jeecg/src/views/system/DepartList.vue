@@ -5,13 +5,13 @@
 
         <!-- 按钮操作区域 -->
         <a-row style="margin-left: 14px">
-          <a-button @click="handleAdd(1)" type="primary">添加部门</a-button>
-          <a-button @click="handleAdd(2)" type="primary">添加下级</a-button>
-          <a-button type="primary" icon="download" @click="handleExportXls('部门信息')">导出</a-button>
-          <a-upload name="file" :showUploadList="false" :multiple="false" :headers="tokenHeader" :action="importExcelUrl" @change="handleImportExcel">
+          <a-button @click="handleAdd(1)" type="primary"  v-has="'addDepart'">添加部门</a-button>
+          <a-button @click="handleAdd(2)" type="primary"  v-has="'addSub'">添加下级</a-button>
+          <a-button type="primary" icon="download" @click="handleExportXls('部门信息')"  v-has="'exportXls'">导出</a-button>
+          <a-upload name="file" :showUploadList="false" :multiple="false" :headers="tokenHeader" :action="importExcelUrl" @change="handleImportExcel"  v-has="'import'">
             <a-button type="primary" icon="import">导入</a-button>
           </a-upload>
-          <a-button title="删除多条数据" @click="batchDel" type="default">批量删除</a-button>
+          <a-button title="删除多条数据" @click="batchDel" type="default"  v-has="'batchDel'">批量删除</a-button>
           <!--<a-button @click="refresh" type="default" icon="reload" :loading="loading">刷新</a-button>-->
         </a-row>
         <div style="background: #fff;padding-left:16px;height: 100%; margin-top: 5px">
