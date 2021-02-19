@@ -14,7 +14,7 @@ import io.swagger.annotations.ApiModelProperty;
 /**
  * @Description: 运单发货人
  * @Author: jeecg-boot
- * @Date:   2021-02-18
+ * @Date:   2021-02-19
  * @Version: V1.0
  */
 @ApiModel(value="waybill_info对象", description="运单信息表")

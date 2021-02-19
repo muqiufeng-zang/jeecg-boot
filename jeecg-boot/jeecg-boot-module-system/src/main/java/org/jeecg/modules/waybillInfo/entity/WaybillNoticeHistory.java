@@ -14,7 +14,7 @@ import io.swagger.annotations.ApiModelProperty;
 /**
  * @Description: 运单通知历史
  * @Author: jeecg-boot
- * @Date:   2021-02-18
+ * @Date:   2021-02-19
  * @Version: V1.0
  */
 @ApiModel(value="waybill_info对象", description="运单信息表")
@@ -49,12 +49,16 @@ public class WaybillNoticeHistory implements Serializable {
 	/**运单号*/
 	@ApiModelProperty(value = "运单号")
 	private java.lang.String waybillNo;
-	/**通知人*/
-	@Excel(name = "通知人", width = 15)
-	@ApiModelProperty(value = "通知人")
-	private java.lang.String notifyUserId;
 	/**通知状态*/
 	@Excel(name = "通知状态", width = 15)
 	@ApiModelProperty(value = "通知状态")
 	private java.lang.Integer notifyState;
+	/**通知时间*/
+	@Excel(name = "通知时间", width = 15)
+	@ApiModelProperty(value = "通知时间")
+	private java.lang.String notifyData;
+	/**通知详情*/
+	@Excel(name = "通知详情", width = 15)
+	@ApiModelProperty(value = "通知详情")
+	private java.lang.String notifyDetail;
 }

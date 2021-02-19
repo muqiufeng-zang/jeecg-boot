@@ -163,6 +163,7 @@
               width:"200px",
               placeholder: '请输入${title}',
               defaultValue:'',
+              validateRules: [{ required: true, message: '${title}不能为空' }],
             },
             {
               title: '通知类型',
@@ -172,6 +173,7 @@
               width:"200px",
               placeholder: '请输入${title}',
               defaultValue:'',
+              validateRules: [{ required: true, message: '${title}不能为空' }],
             },
           ]
         },
@@ -181,17 +183,25 @@
           dataSource: [],
           columns: [
             {
-              title: '通知人',
-              key: 'notifyUserId',
+              title: '通知状态',
+              key: 'notifyState',
+              type: FormTypes.inputNumber,
+              width:"200px",
+              placeholder: '请输入${title}',
+              defaultValue:'',
+            },
+            {
+              title: '通知时间',
+              key: 'notifyData',
               type: FormTypes.input,
               width:"200px",
               placeholder: '请输入${title}',
               defaultValue:'',
             },
             {
-              title: '通知状态',
-              key: 'notifyState',
-              type: FormTypes.inputNumber,
+              title: '通知详情',
+              key: 'notifyDetail',
+              type: FormTypes.input,
               width:"200px",
               placeholder: '请输入${title}',
               defaultValue:'',

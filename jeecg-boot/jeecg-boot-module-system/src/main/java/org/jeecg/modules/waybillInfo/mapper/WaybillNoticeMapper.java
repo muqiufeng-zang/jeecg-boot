@@ -8,7 +8,7 @@ import org.apache.ibatis.annotations.Param;
 /**
  * @Description: 运单状态通知人
  * @Author: jeecg-boot
- * @Date:   2021-02-18
+ * @Date:   2021-02-19
  * @Version: V1.0
  */
 public interface WaybillNoticeMapper extends BaseMapper<WaybillNotice> {
