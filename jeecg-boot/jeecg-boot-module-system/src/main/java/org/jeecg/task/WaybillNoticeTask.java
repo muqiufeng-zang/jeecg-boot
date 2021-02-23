@@ -1,6 +1,8 @@
 package org.jeecg.task;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.aliyuncs.exceptions.ClientException;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import io.swagger.models.auth.In;
@@ -9,6 +11,8 @@ import okhttp3.internal.platform.OpenJSSEPlatform;
 import org.jeecg.HttpClientUtil;
 import org.jeecg.WaybillNotifyStateEn;
 import org.jeecg.WaybillStateEn;
+import org.jeecg.common.util.DySmsEnum;
+import org.jeecg.common.util.DySmsHelper;
 import org.jeecg.modules.system.entity.SysUser;
 import org.jeecg.modules.waybillInfo.entity.WaybillInfo;
 import org.jeecg.modules.waybillInfo.entity.WaybillNotice;
@@ -88,16 +92,16 @@ public class WaybillNoticeTask {
                     if (waybillNoticeHistories.size() > 0) {
                         continue;
                     }
-                    Boolean success = invokeSendSMS(waybillInfo.getWaybillNo(), tds.get(1).text(), tds.get(0).text());
+//                    Boolean success = invokeSendSMS(waybillInfo.getWaybillNo(), tds.get(1).text(), tds.get(0).text());
 
                     WaybillNoticeHistory waybillNoticeHistory = new WaybillNoticeHistory();
-                    if (!success) {
-                        waybillNoticeHistory.setNotifyState(WaybillNotifyStateEn.FAIL.getCode());
-                    }
+//                    if (!success) {
+//                        waybillNoticeHistory.setNotifyState(WaybillNotifyStateEn.FAIL.getCode());
+//                    }
                     waybillNoticeHistory.setWaybillNo(waybillInfo.getWaybillNo());
                     waybillNoticeHistory.setNotifyDetail(tds.get(0).text());
                     waybillNoticeHistory.setNotifyData(tds.get(1).text());
-                    waybillNoticeHistory.setNotifyState(WaybillNotifyStateEn.SUCCESS.getCode());
+                    waybillNoticeHistory.setNotifyState(WaybillNotifyStateEn.NO_NOTIFY.getCode());
                     waybillNoticeHistory.setCreateBy("system");
                     waybillNoticeHistory.setCreateTime(new Date());
                     waybillNoticeHistory.setUpdateBy("system");
@@ -106,7 +110,7 @@ public class WaybillNoticeTask {
                 }
             }
         });
-        log.info("运输中的运单：" + JSON.toJSONString(waybillInfos));
+//        log.info("运输中的运单：" + JSON.toJSONString(waybillInfos));
     }
 
     public Boolean invokeSendSMS(String waybillNo, String notifyData, String notifyDetail) {
@@ -114,6 +118,17 @@ public class WaybillNoticeTask {
         waybillNoticeLambdaQueryWrapper.eq(WaybillNotice::getWaybillNo, waybillNo)
                 .eq(WaybillNotice::getNotifyType, 1);
         List<WaybillNotice> waybillNotices = waybillNoticeMapper.selectList(waybillNoticeLambdaQueryWrapper);
+        waybillNotices.forEach(waybillNotice -> {
+            JSONObject templateParamJson = new JSONObject();
+            templateParamJson.put("waybillNo",waybillNo);
+            templateParamJson.put("notifyData",notifyData);
+            templateParamJson.put("notifyDetail",notifyDetail);
+            try {
+                DySmsHelper.sendSms("15381048898", templateParamJson, DySmsEnum.REGISTER_TEMPLATE_CODE);
+            } catch (ClientException e) {
+                e.printStackTrace();
+            }
+        });
 
         return true;
     }
