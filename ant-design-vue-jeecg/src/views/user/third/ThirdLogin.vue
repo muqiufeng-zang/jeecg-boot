@@ -78,9 +78,18 @@
 
 <script>
 import { JeecgThirdLoginMixin } from '@views/user/third/JeecgThirdLoginMixin'
+import { Icon } from 'ant-design-vue';
+
+const IconFont = Icon.createFromIconfontCN({
+ // scriptUrl: '//at.alicdn.com/t/font_2316098_umqusozousr.js',
+  scriptUrl: '/cdn/font-icon/font_2316098_umqusozousr.js',
+});
 export default {
   name: 'thirdLogin',
   mixins: [JeecgThirdLoginMixin],
+  components: {
+    IconFont,
+  }
 }
 </script>
 
