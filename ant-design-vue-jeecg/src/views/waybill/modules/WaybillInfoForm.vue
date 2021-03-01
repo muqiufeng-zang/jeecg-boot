@@ -11,7 +11,7 @@
           </a-col>
           <a-col :span="24" >
             <a-form-item label="运单状态" :labelCol="labelCol" :wrapperCol="wrapperCol">
-              <j-dict-select-tag type="list" v-decorator="['waybillSate', validatorRules.waybillSate]" :trigger-change="true" dictCode="waybill_state_dict" placeholder="请选择运单状态" />
+              <j-dict-select-tag type="list" v-decorator="['waybillSate']" :trigger-change="true" dictCode="waybill_state_dict" placeholder="请选择运单状态" />
             </a-form-item>
           </a-col>
         </a-row>
@@ -68,6 +68,7 @@
           :actionButton="true"/>
       </a-tab-pane>
     </a-tabs>
+    <a-row v-if="showFlowSubmitButton" style="text-align: center;width: 100%;margin-top: 16px;"><a-button @click="handleOk">提 交</a-button></a-row>
   </a-spin>
 </template>
 
@@ -78,15 +79,11 @@
   import { FormTypes,getRefPromise } from '@/utils/JEditableTableUtil'
   import { JEditableTableMixin } from '@/mixins/JEditableTableMixin'
   import { validateDuplicateValue } from '@/utils/util'
-  import JFormContainer from '@/components/jeecg/JFormContainer'
-  import JDictSelectTag from "@/components/dict/JDictSelectTag"
 
   export default {
     name: 'WaybillInfoForm',
     mixins: [JEditableTableMixin],
     components: {
-      JFormContainer,
-      JDictSelectTag,
     },
     data() {
       return {
@@ -109,11 +106,6 @@
         // 新增时子表默认添加几行空数据
         addDefaultRowNum: 1,
         validatorRules: {
-          waybillSate: {
-            initialValue:"",
-            rules: [
-            ]
-          },
         },
         refKeys: ['waybillConsignor', 'waybillConsignee', 'waybillNotice', 'waybillNoticeHistory', ],
         tableKeys:['waybillConsignor', 'waybillConsignee', 'waybillNotice', 'waybillNoticeHistory', ],
@@ -185,7 +177,9 @@
             {
               title: '通知状态',
               key: 'notifyState',
-              type: FormTypes.inputNumber,
+              type: FormTypes.select,
+              dictCode:"waybill_notify_state_dict",
+              disabled:true,
               width:"200px",
               placeholder: '请输入${title}',
               defaultValue:'',
@@ -194,6 +188,7 @@
               title: '通知时间',
               key: 'notifyData',
               type: FormTypes.input,
+              disabled:true,
               width:"200px",
               placeholder: '请输入${title}',
               defaultValue:'',
@@ -202,7 +197,8 @@
               title: '通知详情',
               key: 'notifyDetail',
               type: FormTypes.input,
-              width:"200px",
+              disabled:true,
+              width:"100%",
               placeholder: '请输入${title}',
               defaultValue:'',
             },

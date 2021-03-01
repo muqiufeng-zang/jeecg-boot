@@ -99,14 +99,12 @@
   import WaybillInfoModal from './modules/WaybillInfoModal'
   import {filterMultiDictText} from '@/components/dict/JDictSelectUtil'
   import '@/assets/less/TableExpand.less'
-  import JSuperQuery from '@/components/jeecg/JSuperQuery.vue'
 
   export default {
     name: "WaybillInfoList",
     mixins:[JeecgListMixin],
     components: {
-      WaybillInfoModal,
-      JSuperQuery
+      WaybillInfoModal
     },
     data () {
       return {
