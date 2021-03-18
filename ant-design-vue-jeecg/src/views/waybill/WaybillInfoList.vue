@@ -132,6 +132,31 @@
             dataIndex: 'waybillSate_dictText'
           },
           {
+            title:'始发地',
+            align:"center",
+            dataIndex: 'origin'
+          },
+          {
+            title:'目的地',
+            align:"center",
+            dataIndex: 'destination'
+          },
+          {
+            title:'件数',
+            align:"center",
+            dataIndex: 'pieces'
+          },
+          {
+            title:'体积',
+            align:"center",
+            dataIndex: 'volume'
+          },
+          {
+            title:'重量',
+            align:"center",
+            dataIndex: 'weight'
+          },
+          {
             title: '操作',
             dataIndex: 'action',
             align:"center",
@@ -167,6 +192,11 @@
         let fieldList=[];
          fieldList.push({type:'string',value:'waybillNo',text:'运单号',dictCode:''})
          fieldList.push({type:'int',value:'waybillSate',text:'运单状态',dictCode:'waybill_state_dict'})
+         fieldList.push({type:'string',value:'origin',text:'始发地',dictCode:''})
+         fieldList.push({type:'string',value:'destination',text:'目的地',dictCode:''})
+         fieldList.push({type:'int',value:'pieces',text:'件数',dictCode:''})
+         fieldList.push({type:'string',value:'volume',text:'体积',dictCode:''})
+         fieldList.push({type:'string',value:'weight',text:'重量',dictCode:''})
         this.superFieldList = fieldList
       }
     }

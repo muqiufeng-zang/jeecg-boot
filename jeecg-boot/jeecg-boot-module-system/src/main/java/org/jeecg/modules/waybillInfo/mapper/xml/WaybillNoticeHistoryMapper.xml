@@ -7,9 +7,9 @@
 		FROM  waybill_notice_history 
 		WHERE
 			 waybill_no = #{mainId} 	</delete>
-	
+
 	<select id="selectByMainId" parameterType="java.lang.String" resultType="org.jeecg.modules.waybillInfo.entity.WaybillNoticeHistory">
-		SELECT * 
+		SELECT *
 		FROM  waybill_notice_history
 		WHERE
 			 waybill_no = #{mainId} 	</select>

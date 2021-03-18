@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * @Description: 运单信息表
  * @Author: jeecg-boot
- * @Date:   2021-02-19
+ * @Date:   2021-03-18
  * @Version: V1.0
  */
 public interface IWaybillInfoService extends IService<WaybillInfo> {

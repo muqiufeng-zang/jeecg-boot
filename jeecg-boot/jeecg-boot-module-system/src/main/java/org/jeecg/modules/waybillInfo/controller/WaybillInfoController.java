@@ -1,6 +1,8 @@
 package org.jeecg.modules.waybillInfo.controller;
 
+import java.io.UnsupportedEncodingException;
 import java.io.IOException;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -41,6 +43,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.extern.slf4j.Slf4j;
+import com.alibaba.fastjson.JSON;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.jeecg.common.aspect.annotation.AutoLog;
@@ -48,7 +51,7 @@ import org.jeecg.common.aspect.annotation.AutoLog;
  /**
  * @Description: 运单信息表
  * @Author: jeecg-boot
- * @Date:   2021-02-19
+ * @Date:   2021-03-18
  * @Version: V1.0
  */
 @Api(tags="运单信息表")

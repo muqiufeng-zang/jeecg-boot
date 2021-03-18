@@ -14,6 +14,31 @@
               <j-dict-select-tag type="list" v-decorator="['waybillSate']" :trigger-change="true" dictCode="waybill_state_dict" placeholder="请选择运单状态" />
             </a-form-item>
           </a-col>
+          <a-col :span="24" >
+            <a-form-item label="始发地" :labelCol="labelCol" :wrapperCol="wrapperCol">
+              <a-input v-decorator="['origin']" placeholder="请输入始发地" ></a-input>
+            </a-form-item>
+          </a-col>
+          <a-col :span="24" >
+            <a-form-item label="目的地" :labelCol="labelCol" :wrapperCol="wrapperCol">
+              <a-input v-decorator="['destination']" placeholder="请输入目的地" ></a-input>
+            </a-form-item>
+          </a-col>
+          <a-col :span="24" >
+            <a-form-item label="件数" :labelCol="labelCol" :wrapperCol="wrapperCol">
+              <a-input-number v-decorator="['pieces']" placeholder="请输入件数" style="width: 100%" />
+            </a-form-item>
+          </a-col>
+          <a-col :span="24" >
+            <a-form-item label="体积" :labelCol="labelCol" :wrapperCol="wrapperCol">
+              <a-input v-decorator="['volume']" placeholder="请输入体积" ></a-input>
+            </a-form-item>
+          </a-col>
+          <a-col :span="24" >
+            <a-form-item label="重量" :labelCol="labelCol" :wrapperCol="wrapperCol">
+              <a-input v-decorator="['weight']" placeholder="请输入重量" ></a-input>
+            </a-form-item>
+          </a-col>
         </a-row>
       </a-form>
     </j-form-container>
@@ -175,6 +200,14 @@
           dataSource: [],
           columns: [
             {
+              title: '批次',
+              key: 'part',
+              type: FormTypes.input,
+              width:"200px",
+              placeholder: '请输入${title}',
+              defaultValue:'',
+            },
+            {
               title: '通知状态',
               key: 'notifyState',
               type: FormTypes.select,
@@ -194,11 +227,35 @@
               defaultValue:'',
             },
             {
+              title: '航站',
+              key: 'station',
+              type: FormTypes.input,
+              width:"200px",
+              placeholder: '请输入${title}',
+              defaultValue:'',
+            },
+            {
+              title: '航班号',
+              key: 'flightNumber',
+              type: FormTypes.input,
+              width:"200px",
+              placeholder: '请输入${title}',
+              defaultValue:'',
+            },
+            {
+              title: '状态',
+              key: 'status',
+              type: FormTypes.input,
+              width:"200px",
+              placeholder: '请输入${title}',
+              defaultValue:'',
+            },
+            {
               title: '通知详情',
               key: 'notifyDetail',
               type: FormTypes.input,
               disabled:true,
-              width:"100%",
+              width:"200px",
               placeholder: '请输入${title}',
               defaultValue:'',
             },
@@ -280,7 +337,7 @@
       },
       /** 调用完edit()方法之后会自动调用此方法 */
       editAfter() {
-        let fieldval = pick(this.model,'waybillNo','waybillSate')
+        let fieldval = pick(this.model,'waybillNo','waybillSate','origin','destination','pieces','volume','weight')
         this.$nextTick(() => {
           this.form.setFieldsValue(fieldval)
         })
@@ -319,7 +376,7 @@
         this.$message.error(msg)
       },
      popupCallback(row){
-       this.form.setFieldsValue(pick(row,'waybillNo','waybillSate'))
+       this.form.setFieldsValue(pick(row,'waybillNo','waybillSate','origin','destination','pieces','volume','weight'))
      },
 
     }

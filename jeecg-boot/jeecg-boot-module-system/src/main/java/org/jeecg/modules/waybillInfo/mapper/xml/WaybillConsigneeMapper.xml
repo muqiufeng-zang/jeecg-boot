@@ -7,10 +7,11 @@
 		FROM  waybill_consignee 
 		WHERE
 			 waybill_no = #{mainId} 	</delete>
-	
+
 	<select id="selectByMainId" parameterType="java.lang.String" resultType="org.jeecg.modules.waybillInfo.entity.WaybillConsignee">
-		SELECT * 
+		SELECT *
 		FROM  waybill_consignee
 		WHERE
 			 waybill_no = #{mainId} 	</select>
+
 </mapper>

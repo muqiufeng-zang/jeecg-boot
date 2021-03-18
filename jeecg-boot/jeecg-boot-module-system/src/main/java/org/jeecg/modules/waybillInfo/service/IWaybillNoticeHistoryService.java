@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * @Description: 运单通知历史
  * @Author: jeecg-boot
- * @Date:   2021-02-19
+ * @Date:   2021-03-18
  * @Version: V1.0
  */
 public interface IWaybillNoticeHistoryService extends IService<WaybillNoticeHistory> {

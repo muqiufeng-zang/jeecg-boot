@@ -7,9 +7,9 @@
 		FROM  waybill_consignor 
 		WHERE
 			 waybill_no = #{mainId} 	</delete>
-	
+
 	<select id="selectByMainId" parameterType="java.lang.String" resultType="org.jeecg.modules.waybillInfo.entity.WaybillConsignor">
-		SELECT * 
+		SELECT *
 		FROM  waybill_consignor
 		WHERE
 			 waybill_no = #{mainId} 	</select>
