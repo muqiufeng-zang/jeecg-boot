@@ -2,9 +2,15 @@ package org.jeecg.task.track;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import lombok.extern.slf4j.Slf4j;
+import me.chanjar.weixin.common.error.WxErrorException;
+import me.chanjar.weixin.mp.api.WxMpService;
+import me.chanjar.weixin.mp.api.impl.WxMpServiceImpl;
+import me.chanjar.weixin.mp.bean.template.WxMpTemplateData;
+import me.chanjar.weixin.mp.bean.template.WxMpTemplateMessage;
 import org.jeecg.HttpClientUtil;
 import org.jeecg.WaybillNotifyStateEn;
 import org.jeecg.WaybillStateEn;
+import org.jeecg.en.WxMpTemplateMessageEnum;
 import org.jeecg.modules.waybillInfo.entity.WaybillInfo;
 import org.jeecg.modules.waybillInfo.entity.WaybillNoticeHistory;
 import org.jeecg.modules.waybillInfo.mapper.WaybillInfoMapper;
@@ -18,6 +24,7 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -79,6 +86,30 @@ public class GFA extends TrackAbstract {
                 }
 //                    Boolean success = invokeSendSMS(waybillInfo.getWaybillNo(), tds.get(1).text(), tds.get(0).text());
 
+                WxMpTemplateMessage templateMessage = new WxMpTemplateMessage();
+                WxMpTemplateData first = new WxMpTemplateData("first","");
+                WxMpTemplateData keyword1 = new WxMpTemplateData("keyword1","");
+                WxMpTemplateData keyword2 = new WxMpTemplateData("keyword2","");
+                WxMpTemplateData keyword3 = new WxMpTemplateData("keyword3","");
+                WxMpTemplateData keyword4 = new WxMpTemplateData("keyword4","");
+                WxMpTemplateData remark = new WxMpTemplateData("remark","");
+                List<WxMpTemplateData> data = new ArrayList<>();
+                data.add(first);
+                data.add(keyword1);
+                data.add(keyword2);
+                data.add(keyword3);
+                data.add(keyword4);
+                data.add(remark);
+                templateMessage.setData(data);
+                templateMessage.setTemplateId(WxMpTemplateMessageEnum.TRACK.getId());
+                templateMessage.setToUser("oHhp86cmK5egpnGFB553JsfRTdF0");
+                WxMpService service = new WxMpServiceImpl();
+
+                try {
+                    service.getTemplateMsgService().sendTemplateMsg(templateMessage);
+                } catch (WxErrorException e) {
+                    e.printStackTrace();
+                }
                 WaybillNoticeHistory waybillNoticeHistory = new WaybillNoticeHistory();
 //                    if (!success) {
 //                        waybillNoticeHistory.setNotifyState(WaybillNotifyStateEn.FAIL.getCode());
