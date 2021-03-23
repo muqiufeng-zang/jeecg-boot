@@ -12,6 +12,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import redis.clients.jedis.JedisPool;
+import redis.clients.jedis.JedisPoolConfig;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -55,22 +56,23 @@ public class WxMpConfiguration {
 
         WxMpService service = new WxMpServiceImpl();
         service.setMultiConfigStorages(configs
-            .stream().map(a -> {
-                WxMpDefaultConfigImpl configStorage;
-                if (this.properties.isUseRedis()) {
-                    final WxMpProperties.RedisConfig redisConfig = this.properties.getRedisConfig();
-                    JedisPool jedisPool = new JedisPool(redisConfig.getHost(), redisConfig.getPort());
-                    configStorage = new WxMpRedisConfigImpl(new JedisWxRedisOps(jedisPool), a.getAppId());
-                } else {
-                    configStorage = new WxMpDefaultConfigImpl();
-                }
+                .stream().map(a -> {
+                    WxMpDefaultConfigImpl configStorage;
+                    if (this.properties.isUseRedis()) {
+                        final WxMpProperties.RedisConfig redisConfig = this.properties.getRedisConfig();
+                        JedisPoolConfig jedisPoolConfig = new JedisPoolConfig();
+                        JedisPool jedisPool = new JedisPool(jedisPoolConfig, redisConfig.getHost(), redisConfig.getPort(), redisConfig.getTimeout(), redisConfig.getPassword());
+                        configStorage = new WxMpRedisConfigImpl(new JedisWxRedisOps(jedisPool), a.getAppId());
+                    } else {
+                        configStorage = new WxMpDefaultConfigImpl();
+                    }
 
-                configStorage.setAppId(a.getAppId());
-                configStorage.setSecret(a.getSecret());
-                configStorage.setToken(a.getToken());
-                configStorage.setAesKey(a.getAesKey());
-                return configStorage;
-            }).collect(Collectors.toMap(WxMpDefaultConfigImpl::getAppId, a -> a, (o, n) -> o)));
+                    configStorage.setAppId(a.getAppId());
+                    configStorage.setSecret(a.getSecret());
+                    configStorage.setToken(a.getToken());
+                    configStorage.setAesKey(a.getAesKey());
+                    return configStorage;
+                }).collect(Collectors.toMap(WxMpDefaultConfigImpl::getAppId, a -> a, (o, n) -> o)));
         return service;
     }
 
@@ -83,11 +85,11 @@ public class WxMpConfiguration {
 
         // 接收客服会话管理事件
         newRouter.rule().async(false).msgType(EVENT).event(KF_CREATE_SESSION)
-            .handler(this.kfSessionHandler).end();
+                .handler(this.kfSessionHandler).end();
         newRouter.rule().async(false).msgType(EVENT).event(KF_CLOSE_SESSION)
-            .handler(this.kfSessionHandler).end();
+                .handler(this.kfSessionHandler).end();
         newRouter.rule().async(false).msgType(EVENT).event(KF_SWITCH_SESSION)
-            .handler(this.kfSessionHandler).end();
+                .handler(this.kfSessionHandler).end();
 
         // 门店审核事件
         newRouter.rule().async(false).msgType(EVENT).event(POI_CHECK_NOTIFY).handler(this.storeCheckNotifyHandler).end();

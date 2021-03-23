@@ -32,9 +32,19 @@ public class WxMpProperties {
         private String host;
 
         /**
+         * redis服务器 主机地址
+         */
+        private String password;
+
+        /**
          * redis服务器 端口号
          */
         private Integer port;
+
+        /**
+         * redis服务器 端口号
+         */
+        private Integer timeout;
     }
 
     /**

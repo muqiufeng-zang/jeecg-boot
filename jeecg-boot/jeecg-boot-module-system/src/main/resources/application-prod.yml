@@ -131,9 +131,9 @@ spring:
         connectionProperties: druid.stat.mergeSql\=true;druid.stat.slowSqlMillis\=5000
       datasource:
         master:
-          url: jdbc:mysql://127.0.0.1:3306/jeecg-boot?characterEncoding=UTF-8&useUnicode=true&useSSL=false&tinyInt1isBit=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai
-          username: root
-          password: root
+          url: jdbc:mysql://rm-bp1j7b75khz90d5l8zo.mysql.rds.aliyuncs.com:3306/jeecg-boot?characterEncoding=UTF-8&useUnicode=true&useSSL=false&tinyInt1isBit=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai
+          username: accdaa
+          password: zBGMqVZAIF7okZ9N
           driver-class-name: com.mysql.cj.jdbc.Driver
           # 多数据源配置
           #multi-datasource1:
@@ -144,7 +144,7 @@ spring:
   #redis 配置
   redis:
     database: 0
-    host: 127.0.0.1
+    host: r-bp1ad4464c9fabc4pd.redis.rds.aliyuncs.com
     lettuce:
       pool:
         max-active: 8   #最大连接数据库连接数,设 0 为没有限制
@@ -152,7 +152,7 @@ spring:
         max-wait: -1ms  #最大建立连接等待时间。如果超过此时间将接到异常。设为-1表示无限制。
         min-idle: 0     #最小等待连接中的数量,设 0 为没有限制
       shutdown-timeout: 100ms
-    password: ''
+    password: Xxy9JxuN5eaZK0I8
     port: 6379
 #mybatis plus 设置
 mybatis-plus:
@@ -180,7 +180,7 @@ jeecg :
     #webapp文件路径
     webapp: /opt/jeecg-boot/webapp
   shiro:
-     excludeUrls: /test/jeecgDemo/demo3,/test/jeecgDemo/redisDemo/**,/category/**,/visual/**,/map/**,/jmreport/bigscreen2/**
+     excludeUrls: /test/jeecgDemo/demo3,/test/jeecgDemo/redisDemo/**,/category/**,/visual/**,/map/**,/jmreport/bigscreen2/**,/wx/portal/**,/jeecg-boot/wx/portal/**
   #阿里云oss存储配置
   oss:
     endpoint: oss-cn-beijing.aliyuncs.com
@@ -283,3 +283,17 @@ justauth:
     type: default
     prefix: 'demo::'
     timeout: 1h
+
+wx:
+  mp:
+    useRedis: true
+    redisConfig:
+      host: r-bp1ad4464c9fabc4pd.redis.rds.aliyuncs.com
+      password: Xxy9JxuN5eaZK0I8
+      timeout: 100
+      port: 6379
+    configs:
+      - appId: wx7aa503f66c06ab58 # 第一个公众号的appid
+        secret: f61fe6380adbb1670cf8a2280227ad00 # 公众号的appsecret
+        token: XcTRvc95H3UoOqBIbNeOAbolq00TzVfr # 接口配置里的Token值
+        aesKey: 4GQRKkiSLS063vEaHzitpEYCRzG7Lr3DMnAYD04p9bH # 接口配置里的EncodingAESKey值

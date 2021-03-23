@@ -251,6 +251,9 @@ cas:
 logging:
   level:
     org.jeecg.modules.system.mapper : info
+    org.springframework.web: INFO
+    org.jeecg.wx.mp: DEBUG
+    me.chanjar.weixin: DEBUG
 #swagger
 knife4j:
   production: false
@@ -283,3 +286,17 @@ justauth:
     type: default
     prefix: 'demo::'
     timeout: 1h
+
+wx:
+  mp:
+    useRedis: true
+    redisConfig:
+      host: 127.0.0.1
+      password: 123456
+      timeout: 100
+      port: 6379
+    configs:
+      - appId: wx7aa503f66c06ab58 # 第一个公众号的appid
+        secret: f61fe6380adbb1670cf8a2280227ad00 # 公众号的appsecret
+        token: XcTRvc95H3UoOqBIbNeOAbolq00TzVfr # 接口配置里的Token值
+        aesKey: 4GQRKkiSLS063vEaHzitpEYCRzG7Lr3DMnAYD04p9bH # 接口配置里的EncodingAESKey值
