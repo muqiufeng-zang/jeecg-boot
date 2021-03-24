@@ -3,8 +3,6 @@ package org.jeecg.wx.mp.handler;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
-import org.jeecg.modules.system.entity.SysCategory;
-import org.jeecg.modules.system.entity.SysThirdAccount;
 import org.jeecg.modules.wechat.entity.WechatUserInfo;
 import org.jeecg.modules.wechat.mapper.WechatUserInfoMapper;
 import org.jeecg.wx.mp.builder.TextBuilder;
@@ -52,7 +50,7 @@ public class SubscribeHandler extends AbstractHandler {
                             .set(WechatUserInfo::getSubscribeState, 1);
                     wechatUserInfoMapper.update(new WechatUserInfo(), updateWrapper);
                     this.logger.info("老用户重新关注 OPENID: " + wxMessage.getFromUser());
-                }else {
+                } else {
                     WechatUserInfo wechatUserInfo = new WechatUserInfo();
                     wechatUserInfo.setNickName(userWxInfo.getNickname());
                     wechatUserInfo.setAvatar(userWxInfo.getHeadImgUrl());
@@ -81,6 +79,7 @@ public class SubscribeHandler extends AbstractHandler {
             if (e.getError().getErrorCode() == 48001) {
                 this.logger.info("该公众号没有获取用户信息权限！");
             }
+            throw e;
         }
 
 
@@ -96,7 +95,7 @@ public class SubscribeHandler extends AbstractHandler {
         }
 
         try {
-            return new TextBuilder().build("感谢关注", wxMessage, weixinService);
+            return new TextBuilder().build("感谢关注艾克达科技，点击菜单栏来查看您的运单实时信息。", wxMessage, weixinService);
         } catch (Exception e) {
             this.logger.error(e.getMessage(), e);
         }
