@@ -11,4 +11,10 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IWechatUserInfoService extends IService<WechatUserInfo> {
 
+    /**
+     * 绑定用户数的手机号
+     * @param wechatUserInfo
+     * @return
+     */
+    boolean bindUserMobile(WechatUserInfo wechatUserInfo);
 }
