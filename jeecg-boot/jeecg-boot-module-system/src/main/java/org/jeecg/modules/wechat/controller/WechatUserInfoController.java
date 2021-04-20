@@ -197,8 +197,8 @@ public class WechatUserInfoController extends JeecgController<WechatUserInfo, IW
      */
     @AutoLog(value = "获取用户的微信绑定手机号信息")
     @ApiOperation(value = "获取用户的微信绑定手机号信息", notes = "获取用户的微信绑定手机号信息")
-    @GetMapping(value = "/userMobile")
-    public Result<?> queryUserMobile(@RequestParam(name = "code", required = true) String code) {
+    @GetMapping(value = "/userMobile/{code}")
+    public Result<?> queryUserMobile(@PathVariable String code) {
         WxOAuth2AccessToken accessToken;
         try {
             accessToken = wxService.getOAuth2Service().getAccessToken(code);
@@ -207,7 +207,7 @@ public class WechatUserInfoController extends JeecgController<WechatUserInfo, IW
             return Result.error("获取用户信息失败");
         }
         QueryWrapper<WechatUserInfo> queryWrapper =
-                new QueryWrapper<WechatUserInfo>().eq("open_id", accessToken.getOpenId());
+                new QueryWrapper<WechatUserInfo>().eq("app_open_id", accessToken.getOpenId());
         WechatUserInfo wechatUserInfo = wechatUserInfoService.getOne(queryWrapper);
         WechatUserMobile wechatUserMobile = new WechatUserMobile();
         wechatUserMobile.setMobile(wechatUserInfo.getMobile());
