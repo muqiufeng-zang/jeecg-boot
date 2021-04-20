@@ -180,7 +180,7 @@ jeecg :
     #webapp文件路径
     webapp: /opt/jeecg-boot/webapp
   shiro:
-     excludeUrls: /test/jeecgDemo/demo3,/test/jeecgDemo/redisDemo/**,/category/**,/visual/**,/map/**,/jmreport/bigscreen2/**,/wx/portal/**,/jeecg-boot/wx/portal/**,/jeecg-boot/wechat/wechatUserInfo/*
+     excludeUrls: /test/jeecgDemo/demo3,/test/jeecgDemo/redisDemo/**,/category/**,/visual/**,/map/**,/jmreport/bigscreen2/**,/wx/portal/**,/wechat/wechatUserInfo/**
   #阿里云oss存储配置
   oss:
     endpoint: oss-cn-beijing.aliyuncs.com
@@ -298,5 +298,5 @@ wx:
     configs:
       - appId: wx7aa503f66c06ab58 # 第一个公众号的appid
         secret: f61fe6380adbb1670cf8a2280227ad00 # 公众号的appsecret
-        token: 44_uLjY0XUsNg72OA73c3Nb-4mN_SjJhLBNs0NoIk77ekL_CnBJaaTY1oQl_oLWva-ayBETrbdQi9gbL_Z5lUdET5H8J2SwxUUMq-eoM5g3hJxfNJoRiAASuUXyd2u3ya0vX4ibMLQ_fULT0U_6WTDeADABYI # 接口配置里的Token值
+        token: XcTRvc95H3UoOqBIbNeOAbolq00TzVfr # 接口配置里的Token值
         aesKey: 4GQRKkiSLS063vEaHzitpEYCRzG7Lr3DMnAYD04p9bH # 接口配置里的EncodingAESKey值
