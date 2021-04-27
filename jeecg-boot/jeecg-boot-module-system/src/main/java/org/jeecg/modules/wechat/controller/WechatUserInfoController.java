@@ -185,8 +185,11 @@ public class WechatUserInfoController extends JeecgController<WechatUserInfo, IW
      */
     @RequestMapping(value = "/bindMobile", method = RequestMethod.POST)
     public Result<?> bindMobile(@RequestBody WechatUserInfo wechatUserInfo) {
-        wechatUserInfoService.bindUserMobile(wechatUserInfo);
-        return Result.OK("绑定成功!");
+        boolean result = wechatUserInfoService.bindUserMobile(wechatUserInfo);
+        if (result){
+            return Result.OK("绑定成功!");
+        }
+        return Result.error("绑定失败!");
     }
 
     /**
