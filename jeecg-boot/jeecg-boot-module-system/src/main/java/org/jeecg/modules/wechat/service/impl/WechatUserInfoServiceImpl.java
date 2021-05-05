@@ -28,9 +28,10 @@ public class WechatUserInfoServiceImpl extends ServiceImpl<WechatUserInfoMapper,
 
     @Override
     public boolean bindUserMobile(WechatUserInfo wechatUserInfo) {
-        LambdaUpdateWrapper<WechatUserInfo> updateWrapper = new UpdateWrapper<WechatUserInfo>().lambda();
-        updateWrapper.set(WechatUserInfo::getAppOpenId, wechatUserInfo.getAppOpenId());
-        int updateNum = wechatUserInfoMapper.update(wechatUserInfo, updateWrapper);
+        LambdaUpdateWrapper<WechatUserInfo> updateWrapper = new LambdaUpdateWrapper<>();
+        updateWrapper.eq(WechatUserInfo::getAppOpenId, wechatUserInfo.getAppOpenId())
+                .set(WechatUserInfo::getMobile, wechatUserInfo.getMobile());
+        int updateNum = wechatUserInfoMapper.update(null, updateWrapper);
         return updateNum > 0;
     }
 }

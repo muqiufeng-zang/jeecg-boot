@@ -214,7 +214,7 @@ public class WechatUserInfoController extends JeecgController<WechatUserInfo, IW
         WechatUserInfo wechatUserInfo = wechatUserInfoService.getOne(queryWrapper);
         WechatUserMobile wechatUserMobile = new WechatUserMobile();
         wechatUserMobile.setMobile(wechatUserInfo.getMobile());
-        wechatUserMobile.setOpenId(wechatUserInfo.getAppOpenId());
+        wechatUserMobile.setAppOpenId(wechatUserInfo.getAppOpenId());
         return Result.OK(wechatUserMobile);
     }
 }
