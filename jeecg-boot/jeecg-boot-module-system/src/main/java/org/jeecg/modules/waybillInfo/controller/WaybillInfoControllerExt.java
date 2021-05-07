@@ -80,18 +80,23 @@ public class WaybillInfoControllerExt {
         QueryWrapper<CustomerContacts> customerContactsQueryWrapper = new QueryWrapper<>();
         customerContactsQueryWrapper.lambda().eq(CustomerContacts::getMobile, wechatUserInfo.getMobile());
         CustomerContacts customerContacts = customerContactsService.getOne(customerContactsQueryWrapper);
-
+        IPage<WaybillInfo> waybillInfoIPage = new Page<>();
+        if (customerContacts == null){
+            return Result.OK(waybillInfoIPage);
+        }
         QueryWrapper<WaybillNotice> waybillNoticeQueryWrapper = new QueryWrapper<>();
         waybillNoticeQueryWrapper.lambda().eq(WaybillNotice::getUserId, customerContacts.getId());
         Page<WaybillNotice> page = new Page<>(pageNo, pageSize);
         IPage<WaybillNotice> pageList = waybillNoticeService.page(page, waybillNoticeQueryWrapper);
         log.info("运单通知列表{}", JSON.toJSONString(pageList));
-        IPage<WaybillInfo> waybillInfoIPage = new Page<>();
         List<WaybillInfo> records = new ArrayList<>();
         pageList.getRecords().forEach(waybillNotice -> {
             QueryWrapper<WaybillInfo> waybillInfoQueryWrapper = new QueryWrapper<>();
             waybillInfoQueryWrapper.lambda().eq(WaybillInfo::getWaybillNo, waybillNotice.getWaybillNo());
             WaybillInfo waybillInfo = waybillInfoService.getOne(waybillInfoQueryWrapper);
+            if (null == waybillInfo){
+                return;
+            }
             records.add(waybillInfo);
         });
         log.info("我的运单列表{}", JSON.toJSONString(waybillInfoIPage));
