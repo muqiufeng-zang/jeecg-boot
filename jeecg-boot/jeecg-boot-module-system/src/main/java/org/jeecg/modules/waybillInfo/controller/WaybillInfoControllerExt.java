@@ -1,5 +1,6 @@
 package org.jeecg.modules.waybillInfo.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -20,6 +21,9 @@ import org.jeecg.modules.wechat.entity.WechatUserInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.jeecg.modules.wechat.service.IWechatUserInfoService;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -70,6 +74,7 @@ public class WaybillInfoControllerExt {
 
         QueryWrapper<WechatUserInfo> queryWrapper =
                 new QueryWrapper<WechatUserInfo>().eq("app_open_id", accessToken.getOpenId());
+//                new QueryWrapper<WechatUserInfo>().eq("app_open_id", "dsffdgdgsdfggf");
         WechatUserInfo wechatUserInfo = wechatUserInfoService.getOne(queryWrapper);
 
         QueryWrapper<CustomerContacts> customerContactsQueryWrapper = new QueryWrapper<>();
@@ -77,17 +82,20 @@ public class WaybillInfoControllerExt {
         CustomerContacts customerContacts = customerContactsService.getOne(customerContactsQueryWrapper);
 
         QueryWrapper<WaybillNotice> waybillNoticeQueryWrapper = new QueryWrapper<>();
-        waybillNoticeQueryWrapper.lambda().eq(WaybillNotice::getUserId, customerContacts.getId())
-        .orderByDesc(true,WaybillNotice::getCreateTime);
+        waybillNoticeQueryWrapper.lambda().eq(WaybillNotice::getUserId, customerContacts.getId());
         Page<WaybillNotice> page = new Page<>(pageNo, pageSize);
         IPage<WaybillNotice> pageList = waybillNoticeService.page(page, waybillNoticeQueryWrapper);
+        log.info("运单通知列表{}", JSON.toJSONString(pageList));
         IPage<WaybillInfo> waybillInfoIPage = new Page<>();
+        List<WaybillInfo> records = new ArrayList<>();
         pageList.getRecords().forEach(waybillNotice -> {
             QueryWrapper<WaybillInfo> waybillInfoQueryWrapper = new QueryWrapper<>();
-            waybillInfoQueryWrapper.lambda().eq(WaybillInfo::getId, waybillNotice.getWaybillNo());
+            waybillInfoQueryWrapper.lambda().eq(WaybillInfo::getWaybillNo, waybillNotice.getWaybillNo());
             WaybillInfo waybillInfo = waybillInfoService.getOne(waybillInfoQueryWrapper);
-            waybillInfoIPage.getRecords().add(waybillInfo);
+            records.add(waybillInfo);
         });
+        log.info("我的运单列表{}", JSON.toJSONString(waybillInfoIPage));
+        waybillInfoIPage.setRecords(records);
         waybillInfoIPage.setTotal(pageList.getTotal());
         waybillInfoIPage.setSize(pageList.getSize());
         waybillInfoIPage.setCurrent(pageList.getCurrent());
