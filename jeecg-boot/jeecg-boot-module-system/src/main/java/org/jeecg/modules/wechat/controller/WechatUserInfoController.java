@@ -48,7 +48,6 @@ import org.jeecg.common.aspect.annotation.AutoLog;
  * @Date: 2021-03-22
  * @Version: V1.0
  */
-@AllArgsConstructor
 @Api(tags = "微信用户表")
 @RestController
 @RequestMapping("/wechat/wechatUserInfo")
@@ -56,8 +55,6 @@ import org.jeecg.common.aspect.annotation.AutoLog;
 public class WechatUserInfoController extends JeecgController<WechatUserInfo, IWechatUserInfoService> {
     @Autowired
     private IWechatUserInfoService wechatUserInfoService;
-
-    private final WxMpService wxService;
 
     /**
      * 分页列表查询
@@ -177,44 +174,4 @@ public class WechatUserInfoController extends JeecgController<WechatUserInfo, IW
         return super.importExcel(request, response, WechatUserInfo.class);
     }
 
-    /**
-     * 绑定用户手机号
-     *
-     * @param wechatUserInfo 用户信息
-     * @return
-     */
-    @RequestMapping(value = "/bindMobile", method = RequestMethod.POST)
-    public Result<?> bindMobile(@RequestBody WechatUserInfo wechatUserInfo) {
-        boolean result = wechatUserInfoService.bindUserMobile(wechatUserInfo);
-        if (result){
-            return Result.OK("绑定成功!");
-        }
-        return Result.error("绑定失败!");
-    }
-
-    /**
-     * 分页列表查询
-     *
-     * @param code 前端身份code
-     * @return
-     */
-    @AutoLog(value = "获取用户的微信绑定手机号信息")
-    @ApiOperation(value = "获取用户的微信绑定手机号信息", notes = "获取用户的微信绑定手机号信息")
-    @GetMapping(value = "/userMobile/{code}")
-    public Result<?> queryUserMobile(@PathVariable String code) {
-        WxOAuth2AccessToken accessToken;
-        try {
-            accessToken = wxService.getOAuth2Service().getAccessToken(code);
-        } catch (WxErrorException e) {
-            e.printStackTrace();
-            return Result.error("获取用户信息失败");
-        }
-        QueryWrapper<WechatUserInfo> queryWrapper =
-                new QueryWrapper<WechatUserInfo>().eq("app_open_id", accessToken.getOpenId());
-        WechatUserInfo wechatUserInfo = wechatUserInfoService.getOne(queryWrapper);
-        WechatUserMobile wechatUserMobile = new WechatUserMobile();
-        wechatUserMobile.setMobile(wechatUserInfo.getMobile());
-        wechatUserMobile.setAppOpenId(wechatUserInfo.getAppOpenId());
-        return Result.OK(wechatUserMobile);
-    }
 }
