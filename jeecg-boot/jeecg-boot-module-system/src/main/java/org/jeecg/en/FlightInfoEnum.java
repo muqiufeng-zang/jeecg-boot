@@ -34,7 +34,7 @@ public enum FlightInfoEnum {
                 return en;
             }
         }
-        throw new Exception("方法类型不存在");
+        throw new Exception("运单航司不存在，请检查数据！");
     }
 
     public String getFlightName() {
