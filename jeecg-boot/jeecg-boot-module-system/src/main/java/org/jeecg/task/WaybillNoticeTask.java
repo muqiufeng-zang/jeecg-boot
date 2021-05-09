@@ -9,7 +9,6 @@ import org.jeecg.common.util.DySmsHelper;
 import org.jeecg.modules.waybillInfo.entity.WaybillInfo;
 import org.jeecg.modules.waybillInfo.entity.WaybillNotice;
 import org.jeecg.modules.waybillInfo.mapper.WaybillInfoMapper;
-import org.jeecg.modules.waybillInfo.mapper.WaybillNoticeHistoryMapper;
 import org.jeecg.modules.waybillInfo.mapper.WaybillNoticeMapper;
 import org.jeecg.task.track.TrackFactory;
 import org.springframework.scheduling.annotation.Scheduled;

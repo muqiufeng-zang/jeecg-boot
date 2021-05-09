@@ -1,8 +1,6 @@
 package org.jeecg.modules.waybillInfo.controller;
 
-import java.io.UnsupportedEncodingException;
 import java.io.IOException;
-import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -43,7 +41,6 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.extern.slf4j.Slf4j;
-import com.alibaba.fastjson.JSON;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.jeecg.common.aspect.annotation.AutoLog;
@@ -51,7 +48,7 @@ import org.jeecg.common.aspect.annotation.AutoLog;
  /**
  * @Description: 运单信息表
  * @Author: jeecg-boot
- * @Date:   2021-03-18
+ * @Date:   2021-05-09
  * @Version: V1.0
  */
 @Api(tags="运单信息表")
@@ -69,7 +66,7 @@ public class WaybillInfoController {
 	private IWaybillNoticeService waybillNoticeService;
 	@Autowired
 	private IWaybillNoticeHistoryService waybillNoticeHistoryService;
-	
+
 	/**
 	 * 分页列表查询
 	 *
@@ -91,7 +88,7 @@ public class WaybillInfoController {
 		IPage<WaybillInfo> pageList = waybillInfoService.page(page, queryWrapper);
 		return Result.OK(pageList);
 	}
-	
+
 	/**
 	 *   添加
 	 *
@@ -107,7 +104,7 @@ public class WaybillInfoController {
 		waybillInfoService.saveMain(waybillInfo, waybillInfoPage.getWaybillConsignorList(),waybillInfoPage.getWaybillConsigneeList(),waybillInfoPage.getWaybillNoticeList(),waybillInfoPage.getWaybillNoticeHistoryList());
 		return Result.OK("添加成功！");
 	}
-	
+
 	/**
 	 *  编辑
 	 *
@@ -127,7 +124,7 @@ public class WaybillInfoController {
 		waybillInfoService.updateMain(waybillInfo, waybillInfoPage.getWaybillConsignorList(),waybillInfoPage.getWaybillConsigneeList(),waybillInfoPage.getWaybillNoticeList(),waybillInfoPage.getWaybillNoticeHistoryList());
 		return Result.OK("编辑成功!");
 	}
-	
+
 	/**
 	 *   通过id删除
 	 *
@@ -141,7 +138,7 @@ public class WaybillInfoController {
 		waybillInfoService.delMain(id);
 		return Result.OK("删除成功!");
 	}
-	
+
 	/**
 	 *  批量删除
 	 *
@@ -155,7 +152,7 @@ public class WaybillInfoController {
 		this.waybillInfoService.delBatchMain(Arrays.asList(ids.split(",")));
 		return Result.OK("批量删除成功！");
 	}
-	
+
 	/**
 	 * 通过id查询
 	 *
@@ -173,7 +170,7 @@ public class WaybillInfoController {
 		return Result.OK(waybillInfo);
 
 	}
-	
+
 	/**
 	 * 通过id查询
 	 *

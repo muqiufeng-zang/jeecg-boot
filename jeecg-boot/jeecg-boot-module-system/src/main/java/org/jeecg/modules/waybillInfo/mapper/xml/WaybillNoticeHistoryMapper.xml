@@ -3,14 +3,14 @@
 <mapper namespace="org.jeecg.modules.waybillInfo.mapper.WaybillNoticeHistoryMapper">
 
 	<delete id="deleteByMainId" parameterType="java.lang.String">
-		DELETE 
-		FROM  waybill_notice_history 
+		DELETE
+		FROM  waybill_notice_history
 		WHERE
-			 waybill_no = #{mainId} 	</delete>
+			 waybill_info_id = #{mainId} 	</delete>
 
 	<select id="selectByMainId" parameterType="java.lang.String" resultType="org.jeecg.modules.waybillInfo.entity.WaybillNoticeHistory">
 		SELECT *
 		FROM  waybill_notice_history
 		WHERE
-			 waybill_no = #{mainId} 	</select>
+			 waybill_info_id = #{mainId} 	</select>
 </mapper>

@@ -343,7 +343,7 @@
         })
         // 加载子表数据
         if (this.model.id) {
-          let params = { id: this.model.waybillNo }
+          let params = { id: this.model.id }
           this.requestSubTableData(this.url.waybillConsignor.list, params, this.waybillConsignorTable)
           this.requestSubTableData(this.url.waybillConsignee.list, params, this.waybillConsigneeTable)
           this.requestSubTableData(this.url.waybillNotice.list, params, this.waybillNoticeTable)

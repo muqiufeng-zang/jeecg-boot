@@ -11,15 +11,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 /**
  * @Description: 运单通知历史
  * @Author: jeecg-boot
- * @Date:   2021-03-18
+ * @Date:   2021-05-09
  * @Version: V1.0
  */
 @Service
 public class WaybillNoticeHistoryServiceImpl extends ServiceImpl<WaybillNoticeHistoryMapper, WaybillNoticeHistory> implements IWaybillNoticeHistoryService {
-	
+
 	@Autowired
 	private WaybillNoticeHistoryMapper waybillNoticeHistoryMapper;
-	
+
 	@Override
 	public List<WaybillNoticeHistory> selectByMainId(String mainId) {
 		return waybillNoticeHistoryMapper.selectByMainId(mainId);

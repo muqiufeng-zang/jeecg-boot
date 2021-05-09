@@ -11,15 +11,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 /**
  * @Description: 运单收货人
  * @Author: jeecg-boot
- * @Date:   2021-03-18
+ * @Date:   2021-05-09
  * @Version: V1.0
  */
 @Service
 public class WaybillConsigneeServiceImpl extends ServiceImpl<WaybillConsigneeMapper, WaybillConsignee> implements IWaybillConsigneeService {
-	
+
 	@Autowired
 	private WaybillConsigneeMapper waybillConsigneeMapper;
-	
+
 	@Override
 	public List<WaybillConsignee> selectByMainId(String mainId) {
 		return waybillConsigneeMapper.selectByMainId(mainId);

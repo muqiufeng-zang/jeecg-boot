@@ -15,7 +15,6 @@ import org.jeecg.modules.waybillInfo.entity.WaybillInfo;
 import org.jeecg.modules.waybillInfo.entity.WaybillNoticeHistory;
 import org.jeecg.modules.waybillInfo.mapper.WaybillInfoMapper;
 import org.jeecg.modules.waybillInfo.mapper.WaybillNoticeHistoryMapper;
-import org.jeecg.modules.waybillInfo.mapper.WaybillNoticeMapper;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
