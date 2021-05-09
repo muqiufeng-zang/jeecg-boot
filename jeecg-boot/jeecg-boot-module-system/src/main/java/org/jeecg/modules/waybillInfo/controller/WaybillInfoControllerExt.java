@@ -1,6 +1,7 @@
 package org.jeecg.modules.waybillInfo.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -16,6 +17,7 @@ import org.jeecg.common.aspect.annotation.AutoLog;
 import org.jeecg.modules.customer.entity.CustomerContacts;
 import org.jeecg.modules.customer.service.ICustomerContactsService;
 import org.jeecg.modules.waybillInfo.entity.*;
+import org.jeecg.modules.waybillInfo.mapper.WaybillNoticeHistoryMapper;
 import org.jeecg.modules.waybillInfo.service.*;
 import org.jeecg.modules.wechat.entity.WechatUserInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,6 +53,9 @@ public class WaybillInfoControllerExt {
     @Autowired
     private ICustomerContactsService customerContactsService;
 
+    @Autowired
+    private WaybillNoticeHistoryMapper waybillNoticeHistoryMapper;
+
     /**
      * 分页列表查询当前微信用户的运单列表
      *
@@ -71,17 +76,18 @@ public class WaybillInfoControllerExt {
             e.printStackTrace();
             return Result.error("获取用户信息失败");
         }
-
         QueryWrapper<WechatUserInfo> queryWrapper =
                 new QueryWrapper<WechatUserInfo>().eq("app_open_id", accessToken.getOpenId());
 //                new QueryWrapper<WechatUserInfo>().eq("app_open_id", "dsffdgdgsdfggf");
         WechatUserInfo wechatUserInfo = wechatUserInfoService.getOne(queryWrapper);
-
+        if (null == wechatUserInfo){
+            return Result.error("用户不存在");
+        }
         QueryWrapper<CustomerContacts> customerContactsQueryWrapper = new QueryWrapper<>();
         customerContactsQueryWrapper.lambda().eq(CustomerContacts::getMobile, wechatUserInfo.getMobile());
         CustomerContacts customerContacts = customerContactsService.getOne(customerContactsQueryWrapper);
         IPage<WaybillInfo> waybillInfoIPage = new Page<>();
-        if (customerContacts == null){
+        if (customerContacts == null) {
             return Result.OK(waybillInfoIPage);
         }
         QueryWrapper<WaybillNotice> waybillNoticeQueryWrapper = new QueryWrapper<>();
@@ -94,7 +100,7 @@ public class WaybillInfoControllerExt {
             QueryWrapper<WaybillInfo> waybillInfoQueryWrapper = new QueryWrapper<>();
             waybillInfoQueryWrapper.lambda().eq(WaybillInfo::getWaybillNo, waybillNotice.getWaybillNo());
             WaybillInfo waybillInfo = waybillInfoService.getOne(waybillInfoQueryWrapper);
-            if (null == waybillInfo){
+            if (null == waybillInfo) {
                 return;
             }
             records.add(waybillInfo);
@@ -108,4 +114,40 @@ public class WaybillInfoControllerExt {
         return Result.OK(waybillInfoIPage);
     }
 
+
+    /**
+     * 通过waybillNo查询
+     *
+     * @param waybillNo
+     * @return
+     */
+    @AutoLog(value = "运单通知历史通过主表ID查询")
+    @ApiOperation(value = "运单通知历史主表ID查询", notes = "运单通知历史-通主表ID查询")
+    @GetMapping(value = "/queryWaybillNoticeHistoryByWaybillNo")
+    public Result<?> queryWaybillNoticeHistoryListByMainId(@RequestParam(name = "waybillNo", required = true) String waybillNo) {
+        LambdaQueryWrapper<WaybillNoticeHistory> queryWrapper = new QueryWrapper<WaybillNoticeHistory>().lambda()
+                .eq(WaybillNoticeHistory::getWaybillNo, waybillNo);
+        List<WaybillNoticeHistory> waybillNoticeHistoryList = waybillNoticeHistoryMapper.selectList(queryWrapper);
+        return Result.OK(waybillNoticeHistoryList);
+    }
+
+    /**
+     * 通过waybillNo查询
+     *
+     * @param waybillNo
+     * @return
+     */
+    @AutoLog(value = "运单信息表-通过id查询")
+    @ApiOperation(value = "运单信息表-通过id查询", notes = "运单信息表-通过id查询")
+    @GetMapping(value = "/queryWaybillInfoByWaybillNo")
+    public Result<?> queryWaybillInfoByWaybillNo(@RequestParam(name = "waybillNo", required = true) String waybillNo) {
+        LambdaQueryWrapper<WaybillInfo> lambdaQueryWrapper = new LambdaQueryWrapper<>();
+        lambdaQueryWrapper.eq(WaybillInfo::getWaybillNo, waybillNo);
+        WaybillInfo waybillInfo = waybillInfoService.getOne(lambdaQueryWrapper);
+        if (waybillInfo == null) {
+            return Result.error("未找到对应数据");
+        }
+        return Result.OK(waybillInfo);
+
+    }
 }
