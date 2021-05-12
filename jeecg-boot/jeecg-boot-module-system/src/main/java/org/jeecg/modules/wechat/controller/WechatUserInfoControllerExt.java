@@ -35,7 +35,7 @@ import java.util.Arrays;
 @AllArgsConstructor
 @Api(tags = "微信用户表")
 @RestController
-@RequestMapping("/wechat/wechatUserInfo")
+@RequestMapping("/wechat/wechatUserInfo/wx")
 @Slf4j
 public class WechatUserInfoControllerExt extends JeecgController<WechatUserInfo, IWechatUserInfoService> {
     @Autowired

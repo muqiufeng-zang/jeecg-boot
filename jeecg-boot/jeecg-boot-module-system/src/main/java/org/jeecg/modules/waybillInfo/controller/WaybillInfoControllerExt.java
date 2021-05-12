@@ -37,7 +37,7 @@ import java.util.List;
 @AllArgsConstructor
 @Api(tags = "运单信息表")
 @RestController
-@RequestMapping("/waybillInfo/waybillInfo")
+@RequestMapping("/waybillInfo/waybillInfo/wx")
 @Slf4j
 public class WaybillInfoControllerExt {
     @Autowired
@@ -121,8 +121,8 @@ public class WaybillInfoControllerExt {
      * @param waybillNo
      * @return
      */
-    @AutoLog(value = "运单通知历史通过主表ID查询")
-    @ApiOperation(value = "运单通知历史主表ID查询", notes = "运单通知历史-通主表ID查询")
+    @AutoLog(value = "运单通知历史通过运单号查询")
+    @ApiOperation(value = "运单通知运单号查询", notes = "运单通知历史-运单号查询")
     @GetMapping(value = "/queryWaybillNoticeHistoryByWaybillNo")
     public Result<?> queryWaybillNoticeHistoryListByMainId(@RequestParam(name = "waybillNo", required = true) String waybillNo) {
         LambdaQueryWrapper<WaybillNoticeHistory> queryWrapper = new QueryWrapper<WaybillNoticeHistory>().lambda()
@@ -137,8 +137,8 @@ public class WaybillInfoControllerExt {
      * @param waybillNo
      * @return
      */
-    @AutoLog(value = "运单信息表-通过id查询")
-    @ApiOperation(value = "运单信息表-通过id查询", notes = "运单信息表-通过id查询")
+    @AutoLog(value = "运单信息表-通过运单号查询")
+    @ApiOperation(value = "运单信息表-通过运单号查询", notes = "运单信息表-通过运单号查询")
     @GetMapping(value = "/queryWaybillInfoByWaybillNo")
     public Result<?> queryWaybillInfoByWaybillNo(@RequestParam(name = "waybillNo", required = true) String waybillNo) {
         LambdaQueryWrapper<WaybillInfo> lambdaQueryWrapper = new LambdaQueryWrapper<>();

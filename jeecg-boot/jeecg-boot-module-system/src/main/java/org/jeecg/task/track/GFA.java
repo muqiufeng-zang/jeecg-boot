@@ -49,6 +49,10 @@ public class GFA extends TrackAbstract {
         String html = HttpClientUtil.doGet(url, "utf-8", waybillInfo.getWaybillNo());
         Document document = Jsoup.parse(html);
         Elements tables = document.body().getElementsByClass("summary");
+        if (tables.size() < 1) {
+            log.error("运单【{}】查询失败！查询结果如下：/n/r {}", waybillInfo.getWaybillNo(), html);
+            return;
+        }
         Element summary = tables.get(1);
         //运单号
         String waybillNo = summary.children().get(0).children().get(0).children().get(0).text();
@@ -86,12 +90,12 @@ public class GFA extends TrackAbstract {
 //                    Boolean success = invokeSendSMS(waybillInfo.getWaybillNo(), tds.get(1).text(), tds.get(0).text());
 
                 WxMpTemplateMessage templateMessage = new WxMpTemplateMessage();
-                WxMpTemplateData first = new WxMpTemplateData("first","");
-                WxMpTemplateData keyword1 = new WxMpTemplateData("keyword1","");
-                WxMpTemplateData keyword2 = new WxMpTemplateData("keyword2","");
-                WxMpTemplateData keyword3 = new WxMpTemplateData("keyword3","");
-                WxMpTemplateData keyword4 = new WxMpTemplateData("keyword4","");
-                WxMpTemplateData remark = new WxMpTemplateData("remark","");
+                WxMpTemplateData first = new WxMpTemplateData("first", "");
+                WxMpTemplateData keyword1 = new WxMpTemplateData("keyword1", "");
+                WxMpTemplateData keyword2 = new WxMpTemplateData("keyword2", "");
+                WxMpTemplateData keyword3 = new WxMpTemplateData("keyword3", "");
+                WxMpTemplateData keyword4 = new WxMpTemplateData("keyword4", "");
+                WxMpTemplateData remark = new WxMpTemplateData("remark", "");
                 List<WxMpTemplateData> data = new ArrayList<>();
                 data.add(first);
                 data.add(keyword1);
