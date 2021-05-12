@@ -16,6 +16,7 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @Description:
@@ -46,6 +47,7 @@ public class WaybillNoticeTask {
         waybillInfoLambdaQueryWrapper.gt(WaybillInfo::getWaybillSate, 5)
                 .lt(WaybillInfo::getWaybillSate, 100);
         List<WaybillInfo> waybillInfos = waybillInfoMapper.selectList(waybillInfoLambdaQueryWrapper);
+        log.info("当前运输中的运单有【{}】", waybillInfos.stream().map(WaybillInfo::getWaybillNo).toArray());
         waybillInfos.forEach(waybillInfo -> {
             try {
                 trackFactory.setWaybillInfo(waybillInfo).track();

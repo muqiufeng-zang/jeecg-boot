@@ -38,7 +38,7 @@ public class TrackFactory {
                 break;
             default:
                 trackAbstract = null;
-                log.info("当前运单没有匹配的航司，请管理员尽快添加！");
+                log.info("当前运单【{}】没有匹配的航司，请管理员尽快添加！", waybillNo);
                 return;
         }
 
