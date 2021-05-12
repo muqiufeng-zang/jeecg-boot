@@ -64,9 +64,9 @@ public class GFA extends TrackAbstract {
         String flight = summary.children().get(0).children().get(0).children().get(3).text();
         //目的港
         String destination = summary.children().get(0).children().get(0).children().get(4).text();
-        Integer waybillStateCode = WaybillStateEn.toEnum(waybillState).getCode();
+//        Integer waybillStateCode = WaybillStateEn.toEnum(waybillState).getCode();
         waybillInfo.setDestination(destination);
-        waybillInfo.setWaybillSate(waybillStateCode);
+//        waybillInfo.setWaybillSate(waybillStateCode);
         waybillInfoMapper.updateById(waybillInfo);
         Elements detail = document.getElementsByClass("detail");
         for (Element element : detail) {

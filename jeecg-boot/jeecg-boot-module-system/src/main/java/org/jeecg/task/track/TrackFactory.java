@@ -20,6 +20,9 @@ public class TrackFactory {
     private GFA gfa;
 
     @Resource
+    private ETH eth;
+
+    @Resource
     public TrackAbstract trackAbstract;
 
     public WaybillInfo waybillInfo;
@@ -33,6 +36,9 @@ public class TrackFactory {
         String waybillNo = waybillInfo.getWaybillNo();
         String threeCode = waybillNo.split("-")[0];
         switch (FlightInfoEnum.toNum(threeCode)) {
+            case ETH:
+                trackAbstract = eth;
+                break;
             case GFA:
                 trackAbstract = gfa;
                 break;

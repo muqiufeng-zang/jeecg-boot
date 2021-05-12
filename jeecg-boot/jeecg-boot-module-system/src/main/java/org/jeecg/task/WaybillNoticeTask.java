@@ -15,6 +15,8 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -47,7 +49,7 @@ public class WaybillNoticeTask {
         waybillInfoLambdaQueryWrapper.gt(WaybillInfo::getWaybillSate, 5)
                 .lt(WaybillInfo::getWaybillSate, 100);
         List<WaybillInfo> waybillInfos = waybillInfoMapper.selectList(waybillInfoLambdaQueryWrapper);
-        log.info("当前运输中的运单有【{}】", waybillInfos.stream().map(WaybillInfo::getWaybillNo).toArray());
+        log.info("当前运输中的运单有【{}】", Arrays.toString(waybillInfos.stream().map(WaybillInfo::getWaybillNo).toArray()));
         waybillInfos.forEach(waybillInfo -> {
             try {
                 trackFactory.setWaybillInfo(waybillInfo).track();
