@@ -81,7 +81,7 @@ public class WaybillInfoControllerExt {
 //                new QueryWrapper<WechatUserInfo>().eq("app_open_id", "dsffdgdgsdfggf");
         WechatUserInfo wechatUserInfo = wechatUserInfoService.getOne(queryWrapper);
         if (null == wechatUserInfo){
-            return Result.error("用户不存在");
+            return Result.error(2001,"用户尚未绑定手机号，请前往个人中心绑定手机号！");
         }
         QueryWrapper<CustomerContacts> customerContactsQueryWrapper = new QueryWrapper<>();
         customerContactsQueryWrapper.lambda().eq(CustomerContacts::getMobile, wechatUserInfo.getMobile());
