@@ -45,7 +45,7 @@ public class GFA extends TrackAbstract {
 
     @Override
     public void waybillTrack(WaybillInfo waybillInfo) {
-        String url = "https://cargoserv.champ.aero/trace/trace.asp";
+        String url = "http://www.cargo.sita.aero/trace/trace.asp";
         String html = HttpClientUtil.doGet(url, "utf-8", waybillInfo.getWaybillNo());
         Document document = Jsoup.parse(html);
         Elements tables = document.body().getElementsByClass("summary");
@@ -63,7 +63,7 @@ public class GFA extends TrackAbstract {
         //航空公司
         String flight = summary.children().get(0).children().get(0).children().get(3).text();
         //目的港
-        String destination = summary.children().get(0).children().get(0).children().get(4).text();
+        String destination = summary.children().get(0).children().get(0).children().get(5).text();
 //        Integer waybillStateCode = WaybillStateEn.toEnum(waybillState).getCode();
         waybillInfo.setDestination(destination);
 //        waybillInfo.setWaybillSate(waybillStateCode);
@@ -108,11 +108,14 @@ public class GFA extends TrackAbstract {
                 templateMessage.setToUser("oHhp86cmK5egpnGFB553JsfRTdF0");
                 WxMpService service = new WxMpServiceImpl();
 
-                try {
-                    service.getTemplateMsgService().sendTemplateMsg(templateMessage);
-                } catch (WxErrorException e) {
-                    e.printStackTrace();
-                }
+//                try {
+//                    service.getTemplateMsgService().sendTemplateMsg(templateMessage);
+//                } catch (WxErrorException e) {
+//                    e.printStackTrace();
+//                }
+                LambdaQueryWrapper<WaybillInfo> lambdaQueryWrapper1 = new LambdaQueryWrapper<>();
+                lambdaQueryWrapper1.eq(WaybillInfo::getWaybillNo, waybillInfo.getWaybillNo());
+                WaybillInfo waybillInfo1 = waybillInfoMapper.selectOne(lambdaQueryWrapper1);
                 WaybillNoticeHistory waybillNoticeHistory = new WaybillNoticeHistory();
 //                    if (!success) {
 //                        waybillNoticeHistory.setNotifyState(WaybillNotifyStateEn.FAIL.getCode());
@@ -127,6 +130,7 @@ public class GFA extends TrackAbstract {
                 waybillNoticeHistory.setCreateTime(new Date());
                 waybillNoticeHistory.setUpdateBy("system");
                 waybillNoticeHistory.setUpdateTime(new Date());
+                waybillNoticeHistory.setWaybillInfoId(waybillInfo1.getId());
                 waybillNoticeHistoryMapper.insert(waybillNoticeHistory);
             }
         }
