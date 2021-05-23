@@ -9,13 +9,13 @@ import lombok.SneakyThrows;
  */
 public enum WaybillStateEn {
 
-    DELIVERED_TO_CONSIGNEE(100,"Delivered to consignee");
+    DELIVERED_TO_CONSIGNEE(100, "Delivered to consignee");
 
     private Integer code;
 
     private String describe;
 
-    WaybillStateEn(Integer code, String describe){
+    WaybillStateEn(Integer code, String describe) {
         this.code = code;
         this.describe = describe;
     }
@@ -29,14 +29,14 @@ public enum WaybillStateEn {
     }
 
     @SneakyThrows
-    public static WaybillStateEn toEnum(String describe){
+    public static WaybillStateEn toEnum(String describe) {
         WaybillStateEn[] var = values();
-        for(int i=0; i<var.length; i++) {
+        for (int i = 0; i < var.length; i++) {
             WaybillStateEn en = var[i];
-            if(en.describe.equals(describe)) {
+            if (en.describe.equals(describe)) {
                 return en;
             }
         }
-        throw new Exception("状态类型不存在");
+        throw new Exception("状态类型【" + describe + "】不存在");
     }
 }
