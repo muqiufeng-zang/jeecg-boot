@@ -9,6 +9,7 @@ import lombok.SneakyThrows;
  */
 public enum WaybillStateEn {
 
+    BOOKED_FOR_TRANSPORT(30, "Booked for transport"),
     DELIVERED_TO_CONSIGNEE(100, "Delivered to consignee");
 
     private Integer code;
