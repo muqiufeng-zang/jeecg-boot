@@ -23,6 +23,7 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -81,6 +82,7 @@ public class GFA extends TrackAbstract {
         Elements detail = document.getElementsByClass("detail");
         for (Element element : detail) {
             Elements trs = element.select("tr");
+            Collections.reverse(trs);
             for (Element tr : trs) {
                 Elements tds = tr.select("td");
                 String notifyDetail = tds.get(0).text();

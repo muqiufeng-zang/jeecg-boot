@@ -40,6 +40,8 @@ public class ETH extends TrackAbstract {
     //物流跟踪
     @Override
     public void waybillTrack(WaybillInfo waybillInfo){
-
+//        String url = "https://cargo.ethiopianairlines.com/e-cargo/cargotrack/Index/";
+//        String html = HttpClientUtil.doPost(url, "utf-8", waybillInfo.getWaybillNo());
+//        Document document = Jsoup.parse(html);
     }
 }

@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.*;
 import org.jeecg.modules.wechat.service.IWechatUserInfoService;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -128,6 +129,7 @@ public class WaybillInfoControllerExt {
         LambdaQueryWrapper<WaybillNoticeHistory> queryWrapper = new QueryWrapper<WaybillNoticeHistory>().lambda()
                 .eq(WaybillNoticeHistory::getWaybillNo, waybillNo);
         List<WaybillNoticeHistory> waybillNoticeHistoryList = waybillNoticeHistoryMapper.selectList(queryWrapper);
+        Collections.reverse(waybillNoticeHistoryList);
         return Result.OK(waybillNoticeHistoryList);
     }
 
