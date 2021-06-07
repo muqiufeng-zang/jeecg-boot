@@ -44,13 +44,13 @@ public class HttpClientUtil {
             HttpHost proxy = new HttpHost("127.0.0.1",5555);
             RequestConfig requestConfig= RequestConfig.custom().setProxy(proxy).build();
             httpPost = new HttpPost(url);
-            httpPost.setConfig(requestConfig);
-            httpPost.addHeader("Content-Type", "application/x-www-form-urlencoded");
-
+//            httpPost.setConfig(requestConfig);
+//            httpPost.addHeader("Content-Type", "application/x-www-form-urlencoded");
+            httpPost.setHeader("Host","cargo.ethiopianairlines.com");
             List<NameValuePair> params = new ArrayList<NameValuePair>();
             NameValuePair pair = new BasicNameValuePair("AirwayBilNum", "071-40970635");
             params.add(pair);
-            httpPost.setEntity(new UrlEncodedFormEntity(params,"UTF-8"));
+            httpPost.setEntity(new UrlEncodedFormEntity(params,charset));
             HttpResponse response = httpClient.execute(httpPost);
             if(response != null){
                 HttpEntity resEntity = response.getEntity();
@@ -66,43 +66,7 @@ public class HttpClientUtil {
 
 
     public static void main(String[] args){
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("AirwayBilNum","071-40970635");
-        System.out.println(jsonObject.toJSONString());
-        String str = doPost("http://cargo.ethiopianairlines.com/e-cargo/cargotrack/Index","","utf-8");
-
-//        OkHttpClient client = new OkHttpClient().newBuilder()
-//                .proxy(new Proxy(Proxy.Type.HTTP, new InetSocketAddress("127.0.0.1", 5555)))
-//                .build();
-//        MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");
-//        RequestBody body = RequestBody.create(mediaType, "AirwayBilNum=071-40970635&CheckIn=&CheckOut=");
-//        Request request = new Request.Builder()
-//                .url("http://cargo.ethiopianairlines.com/e-cargo/cargotrack/Index/")
-//                .method("POST", body)
-//                .addHeader("authority", "cargo.ethiopianairlines.com")
-//                .addHeader("cache-control", "max-age=0")
-//                .addHeader("sec-ch-ua", "\" Not A;Brand\";v=\"99\", \"Chromium\";v=\"90\", \"Google Chrome\";v=\"90\"")
-//                .addHeader("sec-ch-ua-mobile", "?0")
-//                .addHeader("upgrade-insecure-requests", "1")
-//                .addHeader("origin", "https://cargo.ethiopianairlines.com")
-//                .addHeader("content-type", "application/x-www-form-urlencoded")
-//                .addHeader("user-agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.212 Safari/537.36")
-//                .addHeader("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
-//                .addHeader("sec-fetch-site", "same-origin")
-//                .addHeader("sec-fetch-mode", "navigate")
-//                .addHeader("sec-fetch-user", "?1")
-//                .addHeader("sec-fetch-dest", "document")
-//                .addHeader("referer", "https://cargo.ethiopianairlines.com/e-cargo/cargotrack?awbnumber=071-40970635")
-//                .addHeader("accept-language", "zh-CN,zh;q=0.9")
-//                .addHeader("cookie", "_ga=GA1.2.1103181712.1620723707; _gid=GA1.2.672734468.1621870882; ASP.NET_SessionId=nafs5ij003utgqwpoh3upl0b")
-//                .build();
-//        try {
-//            Response response = client.newCall(request).execute();
-//            System.out.println("响应：");
-//            System.out.println(response.body().string());
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
+        String str = doPost("https://cargo.ethiopianairlines.com/e-cargo/cargotrack/Index","","utf-8");
         System.out.println("响应：");
         System.out.println(str);
     }

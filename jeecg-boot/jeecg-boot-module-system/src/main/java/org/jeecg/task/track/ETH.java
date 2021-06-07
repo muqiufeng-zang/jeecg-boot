@@ -26,10 +26,12 @@ import org.jeecg.modules.waybillInfo.entity.WaybillInfo;
 import org.jeecg.modules.waybillInfo.entity.WaybillNoticeHistory;
 import org.jeecg.modules.waybillInfo.mapper.WaybillInfoMapper;
 import org.jeecg.modules.waybillInfo.mapper.WaybillNoticeHistoryMapper;
+import org.jeecg.notify.MessageNotify;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -48,61 +50,97 @@ import java.util.List;
 @Component
 public class ETH extends TrackAbstract {
 
+    @Resource
+    private WaybillNotice waybillNotice;
+
+    @Resource
+    private WaybillInfoMapper waybillInfoMapper;
 
     //物流跟踪
     @Override
     public void waybillTrack(WaybillInfo waybillInfo) {
         String html = post(waybillInfo.getWaybillNo());
         Document document = Jsoup.parse(html);
-        Element mainContainer = document.body().getElementsByClass("container main-container").get(1);
-        Element container = mainContainer.getElementsByClass("container").get(0);
-        Element summary = container.getElementsByClass("table table-bordered table-striped").get(0);
-        Element origin = summary.select("body > div.container.main-container > div.container > table:nth-child(3) > tbody > tr > td:nth-child(1)").get(0);
-//        Element origin = document.select("body > div.container.main-container > div.container > table:nth-child(3) > tbody > tr > td:nth-child(1)").get(0);
+        Element container = document.select("body > div.container.main-container > div.container").get(0);
+        Element origin = container.select("> table:nth-child(3) > tbody > tr > td:nth-child(1)").get(0);
+        Element destination = container.select("> table:nth-child(3) > tbody > tr > td:nth-child(2)").get(0);
+        Element pieces = container.select("> table:nth-child(3) > tbody > tr > td:nth-child(3)").get(0);
+        Element volume = container.select("> table:nth-child(3) > tbody > tr > td:nth-child(4)").get(0);
+        Element airWaybillNumber = container.select("> table:nth-child(3) > tbody > tr > td:nth-child(5)").get(0);
+        if (!waybillInfo.getWaybillNo().equals(airWaybillNumber.text())) {
+            log.warn("运单【{}】查询出来的信息不一致,查询到的是【{}】，请尽快核实！", waybillInfo.getWaybillNo(), airWaybillNumber.text());
+            return;
+        }
+        Element weight = container.select("> table:nth-child(3) > tbody > tr > td:nth-child(6)").get(0);
+        Element detail = container.select("> table:nth-child(4)").get(0);
+        Element part1_origin = detail.select("> tbody tr > td:nth-child(2)").get(0);
+        Element part1_destination = detail.select("> tbody tr > td:nth-child(3)").get(0);
+        Element part1_flightNumber = detail.select("> tbody tr > td:nth-child(4)").get(0);
+        Element part1_flightDate = detail.select("> tbody tr > td:nth-child(5)").get(0);
+        Element part1_numberOfPieces = detail.select("> tbody tr > td:nth-child(6)").get(0);
+        Element part1_weight = detail.select("> tbody tr > td:nth-child(7)").get(0);
+
+        waybillInfo.setPieces(Integer.valueOf(pieces.text()));
+        waybillInfo.setDestination(destination.text());
+        waybillInfo.setOrigin(origin.text());
+        waybillInfo.setVolume(volume.text());
+        waybillInfo.setWeight(weight.text());
+//        Integer waybillStateCode = WaybillStateEn.toEnum(waybillState).getCode();
+//        waybillInfo.setWaybillSate(waybillStateCode);
+        waybillInfoMapper.updateById(waybillInfo);
+
+        System.out.println("detail");
+        Element detail_list = detail.select("> tbody > tr:nth-child(2) > td:nth-child(2) > table > tbody").get(0);
+        Elements list = detail_list.children();
+        Collections.reverse(list);
+        for (Element element : list) {
+            Element active = element.select("> td:nth-child(1)").get(0);
+            Element activeDate = element.select("> td:nth-child(2)").get(0);
+            System.out.println(element.text());
+            WaybillNoticeHistory waybillNoticeHistory = new WaybillNoticeHistory();
+            waybillNoticeHistory.setFlightNumber(part1_flightNumber.text());
+//            waybillNoticeHistory.setStatus();
+            waybillNoticeHistory.setNotifyData(activeDate.text());
+            waybillNoticeHistory.setNotifyDetail(part1_flightNumber.text() + "from" + part1_origin.text() + "to" + part1_destination.text() + " " + active.text());
+            waybillNoticeHistory.setWaybillNo(waybillInfo.getWaybillNo());
+            waybillNotice.toNotify(waybillNoticeHistory);
+        }
+
+        Element child_detail = container.select("> table:nth-child(5) > tbody").get(0);
+
+        int children_size = child_detail.children().size();
+        for (int line = 1; line <= children_size; line = line + 2) {
+            Element child_detail_column = child_detail.select("> tr:nth-child(" + line + ")").get(0);
+            Element origin_column = child_detail_column.select("> td:nth-child(2)").get(0);
+            Element destination_column = child_detail_column.select("> td:nth-child(3)").get(0);
+            Element flightNumber_column = child_detail_column.select("> td:nth-child(4)").get(0);
+            Element flightDate_column = child_detail_column.select("> td:nth-child(5)").get(0);
+            Element numberOfPieces_column = child_detail_column.select("> td:nth-child(6)").get(0);
+            Element part1_weight_column = child_detail_column.select("> td:nth-child(7)").get(0);
+            Element child_list = child_detail.select("> tr:nth-child(" + (line + 1) + ") > td:nth-child(2) > table > tbody").get(0);
+            System.out.println("children_" + (line));
+            Elements list_2 = child_list.children();
+            Collections.reverse(list_2);
+            for (Element element : list_2) {
+                Element active = element.select("> td:nth-child(1)").get(0);
+                Element activeDate = element.select("> td:nth-child(2)").get(0);
+                System.out.println(element.text());
+                WaybillNoticeHistory waybillNoticeHistory = new WaybillNoticeHistory();
+                waybillNoticeHistory.setFlightNumber(flightNumber_column.text());
+//            waybillNoticeHistory.setStatus();
+                waybillNoticeHistory.setNotifyData(activeDate.text());
+                waybillNoticeHistory.setNotifyDetail(flightNumber_column.text() + " from " + origin_column.text() + " to " + destination_column.text() + " " + active.text());
+                waybillNoticeHistory.setWaybillNo(waybillInfo.getWaybillNo());
+                waybillNotice.toNotify(waybillNoticeHistory);
+            }
+        }
     }
 
 
     public static void main(String[] args) {
-        String html = post("071-40970635");
-        Document document = Jsoup.parse(html);
-        Element container = document.select("body > div.container.main-container > div.container").get(0);
-        Element origin = container.select("table:nth-child(3) > tbody > tr > td:nth-child(1)").get(0);
-        Element destination = container.select("table:nth-child(3) > tbody > tr > td:nth-child(2)").get(0);
-        Element pieces = container.select("table:nth-child(3) > tbody > tr > td:nth-child(3)").get(0);
-        Element volume = container.select("table:nth-child(3) > tbody > tr > td:nth-child(4)").get(0);
-        Element airWaybillNumber = container.select("table:nth-child(3) > tbody > tr > td:nth-child(5)").get(0);
-        Element weight = container.select("table:nth-child(3) > tbody > tr > td:nth-child(6)").get(0);
-        Element detail = container.select("table:nth-child(4)").get(0);
-        Element part1_origin = detail.select("tbody tr > td:nth-child(1)").get(0);
-        Element part1_destination = detail.select("tbody tr > td:nth-child(2)").get(0);
-        Element part1_flightNumber = detail.select("tbody tr > td:nth-child(3)").get(0);
-        Element part1_flightDate = detail.select("tbody tr > td:nth-child(4)").get(0);
-        Element part1_numberOfPieces = detail.select("tbody tr > td:nth-child(5)").get(0);
-        Element part1_weight = detail.select("tbody tr > td:nth-child(6)").get(0);
-
-        System.out.println("detail");
-        Element detail_list = detail.select("tbody > tr:nth-child(2) > td:nth-child(2) > table > tbody").get(0);
-        Elements list = detail_list.children();
-        Collections.reverse(list);
-        for (Element element : list) {
-            Element active = element.select("td:nth-child(1)").get(0);
-            Element activeDate = element.select("td:nth-child(2)").get(0);
-            System.out.println(element.text());
-        }
-
-        Element child_detail = container.select("table:nth-child(5) > tbody").get(0);
-
-        for (int child_detail_size = 2; child_detail_size <= child_detail.children().size(); child_detail_size = child_detail_size + 2) {
-            Element child_list = child_detail.select("tr:nth-child(" + child_detail_size + ") > td:nth-child(2) > table > tbody").get(0);
-            System.out.println("children_" + (child_detail_size - 1));
-            Elements list_2 = child_list.children();
-            Collections.reverse(list_2);
-            for (Element element : list_2) {
-                Element active = element.select("td:nth-child(1)").get(0);
-                Element activeDate = element.select("td:nth-child(2)").get(0);
-                System.out.println(element.text());
-            }
-        }
+        WaybillInfo waybillInfo = new WaybillInfo();
+        waybillInfo.setWaybillNo("071-40970635");
+//        waybillTrack(waybillInfo);
     }
 
     public static String post(String waybillNo) {
@@ -132,4 +170,6 @@ public class ETH extends TrackAbstract {
         }
         return result;
     }
+
+
 }
