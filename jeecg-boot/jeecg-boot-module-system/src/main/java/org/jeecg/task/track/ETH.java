@@ -158,6 +158,7 @@ public class ETH extends TrackAbstract {
             NameValuePair pair = new BasicNameValuePair("AirwayBilNum", waybillNo);
             params.add(pair);
             httpPost.setEntity(new UrlEncodedFormEntity(params, charset));
+            log.info("http 获取运单为【{}】的信息", waybillNo);
             HttpResponse response = httpClient.execute(httpPost);
             if (response != null) {
                 HttpEntity resEntity = response.getEntity();
@@ -168,6 +169,8 @@ public class ETH extends TrackAbstract {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
+        log.info("http 获取运单为【{}】的信息为{}", waybillNo, result);
+
         return result;
     }
 

@@ -46,6 +46,7 @@ public class WaybillInfoServiceImpl extends ServiceImpl<WaybillInfoMapper, Waybi
 		if(waybillConsignorList!=null && waybillConsignorList.size()>0) {
 			for(WaybillConsignor entity:waybillConsignorList) {
 				//外键设置
+				entity.setWaybillNo(waybillInfo.getWaybillNo());
 				entity.setWaybillInfoId(waybillInfo.getId());
 				waybillConsignorMapper.insert(entity);
 			}
@@ -53,6 +54,7 @@ public class WaybillInfoServiceImpl extends ServiceImpl<WaybillInfoMapper, Waybi
 		if(waybillConsigneeList!=null && waybillConsigneeList.size()>0) {
 			for(WaybillConsignee entity:waybillConsigneeList) {
 				//外键设置
+				entity.setWaybillNo(waybillInfo.getWaybillNo());
 				entity.setWaybillInfoId(waybillInfo.getId());
 				waybillConsigneeMapper.insert(entity);
 			}
@@ -60,6 +62,7 @@ public class WaybillInfoServiceImpl extends ServiceImpl<WaybillInfoMapper, Waybi
 		if(waybillNoticeList!=null && waybillNoticeList.size()>0) {
 			for(WaybillNotice entity:waybillNoticeList) {
 				//外键设置
+				entity.setWaybillNo(waybillInfo.getWaybillNo());
 				entity.setWaybillInfoId(waybillInfo.getId());
 				waybillNoticeMapper.insert(entity);
 			}
@@ -67,6 +70,7 @@ public class WaybillInfoServiceImpl extends ServiceImpl<WaybillInfoMapper, Waybi
 		if(waybillNoticeHistoryList!=null && waybillNoticeHistoryList.size()>0) {
 			for(WaybillNoticeHistory entity:waybillNoticeHistoryList) {
 				//外键设置
+				entity.setWaybillNo(waybillInfo.getWaybillNo());
 				entity.setWaybillInfoId(waybillInfo.getId());
 				waybillNoticeHistoryMapper.insert(entity);
 			}
@@ -88,6 +92,7 @@ public class WaybillInfoServiceImpl extends ServiceImpl<WaybillInfoMapper, Waybi
 		if(waybillConsignorList!=null && waybillConsignorList.size()>0) {
 			for(WaybillConsignor entity:waybillConsignorList) {
 				//外键设置
+				entity.setWaybillNo(waybillInfo.getWaybillNo());
 				entity.setWaybillInfoId(waybillInfo.getId());
 				waybillConsignorMapper.insert(entity);
 			}
@@ -95,6 +100,7 @@ public class WaybillInfoServiceImpl extends ServiceImpl<WaybillInfoMapper, Waybi
 		if(waybillConsigneeList!=null && waybillConsigneeList.size()>0) {
 			for(WaybillConsignee entity:waybillConsigneeList) {
 				//外键设置
+				entity.setWaybillNo(waybillInfo.getWaybillNo());
 				entity.setWaybillInfoId(waybillInfo.getId());
 				waybillConsigneeMapper.insert(entity);
 			}
@@ -102,6 +108,7 @@ public class WaybillInfoServiceImpl extends ServiceImpl<WaybillInfoMapper, Waybi
 		if(waybillNoticeList!=null && waybillNoticeList.size()>0) {
 			for(WaybillNotice entity:waybillNoticeList) {
 				//外键设置
+				entity.setWaybillNo(waybillInfo.getWaybillNo());
 				entity.setWaybillInfoId(waybillInfo.getId());
 				waybillNoticeMapper.insert(entity);
 			}
@@ -109,6 +116,7 @@ public class WaybillInfoServiceImpl extends ServiceImpl<WaybillInfoMapper, Waybi
 		if(waybillNoticeHistoryList!=null && waybillNoticeHistoryList.size()>0) {
 			for(WaybillNoticeHistory entity:waybillNoticeHistoryList) {
 				//外键设置
+				entity.setWaybillNo(waybillInfo.getWaybillNo());
 				entity.setWaybillInfoId(waybillInfo.getId());
 				waybillNoticeHistoryMapper.insert(entity);
 			}

@@ -1,5 +1,6 @@
 package org.jeecg.notify;
 
+import lombok.extern.slf4j.Slf4j;
 import me.chanjar.weixin.common.error.WxErrorException;
 import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.bean.template.WxMpTemplateData;
@@ -17,13 +18,14 @@ import java.util.List;
  * @Author: qiufeng
  * @Date: Created in 2021/5/23
  */
+@Slf4j
 @Component
 public class SendWXTemplateMsg {
 
     @Autowired
     private WxMpService wxMpService;
 
-    public void send(MessageEntity messageEntity) {
+    public String send(MessageEntity messageEntity) {
         WxMpTemplateMessage templateMessage = new WxMpTemplateMessage();
         WxMpTemplateData waybillStateWxMpTemplateData = new WxMpTemplateData("first", messageEntity.getWaybillState());
         WxMpTemplateData forwarderCompanyWxMpTemplateData = new WxMpTemplateData("keyword1", messageEntity.getForwarderCompany());
@@ -42,12 +44,12 @@ public class SendWXTemplateMsg {
         templateMessage.setTemplateId(WxMpTemplateMessageEnum.TRACK.getId());
         templateMessage.setToUser(messageEntity.getOpenId());
         templateMessage.setUrl("http://h5.accdaa.com/#/waybill/detail?waybillNo=" + messageEntity.getWaybillNo());
-        String msgid = "";
+        String msgid = null;
         try {
             msgid = wxMpService.getTemplateMsgService().sendTemplateMsg(templateMessage);
-            System.out.println("发送模板消息id：" + msgid);
         } catch (WxErrorException e) {
             e.printStackTrace();
         }
+        return msgid;
     }
 }

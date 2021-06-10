@@ -1,6 +1,7 @@
 package org.jeecg.task.track;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import lombok.extern.slf4j.Slf4j;
 import org.jeecg.WaybillNotifyStateEn;
 import org.jeecg.modules.waybillInfo.entity.WaybillInfo;
 import org.jeecg.modules.waybillInfo.entity.WaybillNoticeHistory;
@@ -19,6 +20,7 @@ import java.util.List;
  * @Author: qiufeng
  * @Date: Created in 2021/6/6
  */
+@Slf4j
 @Component
 public class WaybillNotice {
 
@@ -43,16 +45,18 @@ public class WaybillNotice {
             return;
         }
 
-        boolean notifySuccess = messageNotify.toNotify(waybillNoticeHistory.getStatus(), waybillNoticeHistory.getWaybillNo(), waybillNoticeHistory.getNotifyData(), waybillNoticeHistory.getNotifyDetail(), null);
-        if (!notifySuccess) {
-            waybillNoticeHistory.setNotifyState(WaybillNotifyStateEn.FAIL.getCode());
-        }
+        boolean notifySuccess = messageNotify.toNotify(waybillNoticeHistory.getStatus(),
+                waybillNoticeHistory.getWaybillNo(), waybillNoticeHistory.getNotifyData(),
+                waybillNoticeHistory.getNotifyDetail(), null);
 
         waybillNoticeHistory.setFlightNumber(waybillNoticeHistory.getFlightNumber());
         waybillNoticeHistory.setWaybillNo(waybillNoticeHistory.getWaybillNo());
         waybillNoticeHistory.setNotifyDetail(waybillNoticeHistory.getNotifyDetail());
         waybillNoticeHistory.setNotifyData(waybillNoticeHistory.getNotifyData());
         waybillNoticeHistory.setNotifyState(WaybillNotifyStateEn.NO_NOTIFY.getCode());
+        if (!notifySuccess) {
+            waybillNoticeHistory.setNotifyState(WaybillNotifyStateEn.FAIL.getCode());
+        }
         waybillNoticeHistory.setCreateBy("system");
         waybillNoticeHistory.setCreateTime(new Date());
         waybillNoticeHistory.setUpdateBy("system");
@@ -62,5 +66,6 @@ public class WaybillNotice {
         WaybillInfo waybillInfo1 = waybillInfoMapper.selectOne(lambdaQueryWrapper1);
         waybillNoticeHistory.setWaybillInfoId(waybillInfo1.getId());
         waybillNoticeHistoryMapper.insert(waybillNoticeHistory);
+        log.info("更新运单【{}】的动态信息{}", waybillNoticeHistory.getWaybillNo(), waybillNoticeHistory.getNotifyDetail());
     }
 }

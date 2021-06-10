@@ -1,6 +1,8 @@
 package org.jeecg.notify;
 
+import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import lombok.extern.slf4j.Slf4j;
 import org.jeecg.en.WxMpTemplateMessageEnum;
 import org.jeecg.modules.customer.entity.CustomerContacts;
 import org.jeecg.modules.customer.service.ICustomerContactsService;
@@ -17,12 +19,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * @Description:
  * @Author: qiufeng
  * @Date: Created in 2021/5/23
  */
+@Slf4j
 @Component
 public class MessageNotify {
 
@@ -42,6 +46,7 @@ public class MessageNotify {
     private SendSMS sendSMS;
 
     public Boolean toNotify(String waybillState, String waybillNo, String notifyDate, String notifyDetail, String remark) {
+        AtomicBoolean notifyResult = new AtomicBoolean(true);
         MessageEntity messageEntity = new MessageEntity();
         messageEntity.setWaybillState(waybillState);
         messageEntity.setWaybillNo(waybillNo);
@@ -61,20 +66,26 @@ public class MessageNotify {
         LambdaQueryWrapper<WaybillNotice> waybillNoticeLambdaQueryWrapper = new LambdaQueryWrapper<>();
         waybillNoticeLambdaQueryWrapper.eq(WaybillNotice::getWaybillNo, messageEntity.getWaybillNo());
         List<WaybillNotice> waybillNoticeList = waybillNoticeService.list(waybillNoticeLambdaQueryWrapper);
+        log.info("运单【{}】的通知人员为：{}", waybillNo, JSON.toJSONString(waybillNoticeList));
         waybillNoticeList.forEach(waybillNotice -> {
             CustomerContacts customerContacts = customerContactsService.getById(waybillNotice.getUserId());
             messageEntity.setMobile(customerContacts.getMobile());
 //                sendSMS.send(messageEntity);
+            log.info("运单【{}】的通知人员【{}】的通知类型为：{}", waybillNo, waybillNotice.getUserId(), waybillNotice.getNotifyType());
             if (waybillNotice.getNotifyType() > 1) {
                 LambdaQueryWrapper<WechatUserInfo> wechatUserInfoLambdaQueryWrapper = new LambdaQueryWrapper<>();
                 wechatUserInfoLambdaQueryWrapper.eq(WechatUserInfo::getMobile, customerContacts.getMobile());
                 List<WechatUserInfo> wechatUserInfoList = wechatUserInfoService.list(wechatUserInfoLambdaQueryWrapper);
                 wechatUserInfoList.forEach(wechatUserInfo -> {
                     messageEntity.setOpenId(wechatUserInfo.getAppOpenId());
-                    sendWXTemplateMsg.send(messageEntity);
+                    String msgId = sendWXTemplateMsg.send(messageEntity);
+                    if (null == msgId) {
+                        notifyResult.set(false);
+                        log.info("运单【{}】的通知人员【{}】的微信通知失败！", waybillNo, waybillNotice.getUserId());
+                    }
                 });
             }
         });
-        return true;
+        return notifyResult.get();
     }
 }
