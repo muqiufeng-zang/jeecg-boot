@@ -101,7 +101,7 @@ public class ETH extends TrackAbstract {
             waybillNoticeHistory.setFlightNumber(part1_flightNumber.text());
 //            waybillNoticeHistory.setStatus();
             waybillNoticeHistory.setNotifyData(activeDate.text());
-            waybillNoticeHistory.setNotifyDetail(part1_flightNumber.text() + "from" + part1_origin.text() + "to" + part1_destination.text() + " " + active.text());
+            waybillNoticeHistory.setNotifyDetail(part1_flightNumber.text() + " from " + part1_origin.text() + " to " + part1_destination.text() + " " + active.text());
             waybillNoticeHistory.setWaybillNo(waybillInfo.getWaybillNo());
             waybillNotice.toNotify(waybillNoticeHistory);
         }
