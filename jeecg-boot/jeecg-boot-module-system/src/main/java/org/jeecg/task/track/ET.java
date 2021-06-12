@@ -48,7 +48,7 @@ import java.util.List;
 
 @Slf4j
 @Component
-public class ETH extends TrackAbstract {
+public class ET extends TrackAbstract {
 
     @Resource
     private WaybillNotice waybillNotice;

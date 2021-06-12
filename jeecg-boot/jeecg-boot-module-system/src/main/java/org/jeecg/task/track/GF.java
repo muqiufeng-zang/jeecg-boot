@@ -38,7 +38,7 @@ import java.util.List;
 @AllArgsConstructor
 @Configuration
 @EnableConfigurationProperties(WxMpProperties.class)
-public class GFA extends TrackAbstract {
+public class GF extends TrackAbstract {
 
     @Resource
     private WaybillNoticeHistoryMapper waybillNoticeHistoryMapper;

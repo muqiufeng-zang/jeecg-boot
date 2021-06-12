@@ -17,10 +17,10 @@ import javax.annotation.Resource;
 public class TrackFactory {
 
     @Resource
-    private GFA gfa;
+    private GF GF;
 
     @Resource
-    private ETH eth;
+    private ET ET;
 
     @Resource
     public TrackAbstract trackAbstract;
@@ -36,11 +36,11 @@ public class TrackFactory {
         String waybillNo = waybillInfo.getWaybillNo();
         String threeCode = waybillNo.split("-")[0];
         switch (FlightInfoEnum.toNum(threeCode)) {
-            case ETH:
-                trackAbstract = eth;
+            case ET:
+                trackAbstract = ET;
                 break;
-            case GFA:
-                trackAbstract = gfa;
+            case GF:
+                trackAbstract = GF;
                 break;
             default:
                 trackAbstract = null;
